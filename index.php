@@ -1,4 +1,11 @@
 <?php
+if(file_exists(__DIR__.'/.env.local')){
+    $lines = file(__DIR__.'/.env.local', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        putenv($line);
+    }
+}
+
 // Database configuration - Neon connection string
 $conn_string = getenv('DATABASE_URL');
 

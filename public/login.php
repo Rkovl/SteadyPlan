@@ -21,7 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
     }
-
     $error = "Wrong username or password";
 }
 ?>

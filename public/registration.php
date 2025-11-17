@@ -11,12 +11,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
     $query = $pdo->prepare("
-        INSERT INTO users (email. username, password)
-        VALUES (:username, :email, :password)"
+        INSERT INTO users (email, username, password)
+        VALUES (:email, :username, :password)"
     );
 
     try {
-        $query->excute([
+        $query->execute([
             "email" => $email,
             "username" => $username,
             "password" => $password

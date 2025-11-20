@@ -15,6 +15,12 @@ class taskRepo {
         return pg_fetch_assoc($results);
     }
 
+    public function getTasks($projectID, $columnID) {
+        $query = "SELECT * FROM tasks WHERE project_id=$projectID AND column_id=$columnID";
+        $results = pg_query_params($this->db, $query, array($projectID, $columnID));
+        return pg_fetch_all($results);
+    }
+
     public function createTask($projectID, $columnID, $name, $description = null) {
         $query = "INSERT INTO tasks (project_id, column_id, name, description) VALUES ($1, $2, $3, $4) RETURNING id";
         $results = pg_query_params($this->db, $query, array($projectID, $columnID, $name, $description));

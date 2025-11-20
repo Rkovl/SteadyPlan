@@ -11,7 +11,6 @@ class columnRepo {
 
     public function addColumn($projectID, $name, $position, $description = null) {
         $query = "INSERT INTO columns (project_id, name, position, description) VALUES ($1, $2, $3, $4)";
-
         $results = pg_query_params($this->db, $query, array($projectID, $name, $position, $description));
 
         if(!$results) {

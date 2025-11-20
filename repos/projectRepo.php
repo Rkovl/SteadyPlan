@@ -11,7 +11,6 @@ class projectRepo {
 
     public function addProject($owner, $name) {
         $query = "INSERT INTO projects (owner, name) VALUES ($1, $2) RETURNING id";
-
         $results = pg_query_params($this->db, $query, array($owner, $name));
 
         if (!$results) {

@@ -5,7 +5,7 @@ class userRepo {
     private $db;
 
     public function __construct() {
-        $database = new database();
+        $database = new Database();
         $this->db = $database->getConnection();
     }
 
@@ -27,7 +27,7 @@ class userRepo {
             return null;
         }
 
-        $row = pg_fetch_array($result);
+        $row = pg_fetch_assoc($result);
         return $row['id'];
     }
 

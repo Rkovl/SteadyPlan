@@ -1,5 +1,6 @@
 <?php
 require_once(__DIR__ . "/../repos/userRepo.php");
+require_once(__DIR__ . '/../db/verifyUUID.php');
 
 class userController {
     private $userRepo;

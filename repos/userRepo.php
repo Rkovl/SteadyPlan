@@ -1,5 +1,4 @@
 <?php
-require_once(__DIR__ . '/../models/user.php');
 require_once(__DIR__ . '/../db/database.php');
 class userRepo {
     private $db;
@@ -9,19 +8,15 @@ class userRepo {
         $this->db = $database->getConnection();
     }
 
-    public function register($user) {
+    public function register($password, $username = null, $email = null) {
         $query = "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id";
 
-        $hashedPassword = password_hash($user->password, PASSWORD_DEFAULT);
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         $result = pg_query_params(
             $this->db,
             $query,
-            array($user->username,
-                $user->email,
-                $hashedPassword
-            )
-        );
+            array($username, $email, $hashedPassword));
 
         if(!$result) {
             return null;

@@ -33,8 +33,7 @@ include __DIR__.'/../partials/header.php';
  </svg> 
                 </div>
                 <h3 class="fs-2 text-body-emphasis">Collaborative Project Workspaces</h3> 
-                <p>Steady Plan centralizes your team’s projects in a unified environment, ensuring everyone stays informed and aligned. By bringing communication, task updates, and project details together, teams reduce friction and maintain consistent momentum.</p> 
-                <a href="#" class="icon-link">Call to action <svg class="bi" aria-hidden="true"><use xlink:href="#chevron-right"></use></svg> </a> 
+                <p>Steady Plan centralizes your team’s projects in a unified environment, ensuring everyone stays informed and aligned. By bringing communication, task updates, and project details together, teams reduce friction and maintain consistent momentum.</p>  
             </div> 
             <div class="feature col-lg-4"> 
                 <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3"> 
@@ -43,8 +42,7 @@ include __DIR__.'/../partials/header.php';
  </svg>
                 </div> 
                 <h3 class="fs-2 text-body-emphasis">Smart Task Management & Kanban Flow</h3> 
-                <p>Tasks are organized through an intuitive Kanban board that makes project progress visible at a glance. This structured workflow supports faster decision-making, improves accountability, and helps teams prioritize the work that matters most.</p> 
-                <a href="#" class="icon-link">Call to action<svg class="bi" aria-hidden="true"><use xlink:href="#chevron-right"></use></svg> </a> 
+                <p>Tasks are organized through an intuitive Kanban board that makes project progress visible at a glance. This structured workflow supports faster decision-making, improves accountability, and helps teams prioritize the work that matters most.</p>  
             </div> 
             <div class="feature col-lg-4"> 
                 <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3"> 
@@ -54,8 +52,7 @@ include __DIR__.'/../partials/header.php';
  </svg>
                 </div> 
                 <h3 class="fs-2 text-body-emphasis">Integrated Activity Tracking & Communication</h3> 
-                <p>Every action, from task creation to status updates, is captured in a clear project activity feed. This transparency strengthens team coordination, minimizes miscommunication, and supports reliable, audit-ready project oversight.</p> 
-                <a href="#" class="icon-link">Call to action <svg class="bi" aria-hidden="true"><use xlink:href="#chevron-right"></use></svg> </a> 
+                <p>Every action, from task creation to status updates, is captured in a clear project activity feed. This transparency strengthens team coordination, minimizes miscommunication, and supports reliable, audit-ready project oversight.</p>  
             </div> 
         </div>
     </div>

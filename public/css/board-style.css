@@ -1,0 +1,113 @@
+/* Theme-aware variables using Bootstrap's CSS variables */
+:root {
+    /* Fonts */
+    --main-font: 'Segoe UI', Verdana;
+
+    /* Colors - Using Bootstrap theme-aware variables */
+    --bg-color: var(--bs-body-bg);
+    --text-color: var(--bs-body-color);
+    --text-muted: var(--bs-secondary-color);
+    --heading-color: var(--bs-emphasis-color);
+    --label-color: var(--bs-body-color);
+
+    /* Cards and columns - Using Bootstrap variables */
+    --column-bg: var(--bs-secondary-bg);
+    --card-bg: var(--bs-body-bg);
+    --task-bg: var(--bs-body-bg);
+    --task-bg-hover: var(--bs-tertiary-bg);
+    --drop-over-bg: var(--bs-dark-bg-subtle);
+
+    /* Dropdowns - Using Bootstrap variables */
+    --dropdown-bg: var(--bs-body-bg);
+    --dropdown-hover-bg: var(--bs-tertiary-bg);
+
+    /* Custom properties for specific elements */
+    --dropdown-min-width: 160px;
+    --column-min-width: 350px;
+}
+
+/* Global styles */
+body {
+    margin: 0;
+    user-select: none; /* prevent text selection during drag-and-drop */
+    font-family: var(--main-font), sans-serif;
+    background-color: var(--bg-color);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    text-align: center;
+    margin-top: 1rem;
+    color: var(--heading-color);
+}
+
+main {
+    padding: 1rem;
+    box-sizing: border-box;
+    overflow: auto; /* Enable scrolling if content overflows */
+}
+
+/* Board styles */
+.board {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+/* Column styles */
+.column {
+    display: flex;
+    flex-direction: column;
+    background: var(--column-bg);
+    border-radius: var(--bs-border-radius);
+    padding-top: 1rem;
+    min-width: var(--column-min-width);
+}
+
+.task_container {
+    background: transparent;
+    padding: 1rem;
+}
+
+.add-task-btn {
+    background: transparent;
+    margin-top: auto;
+    display: flex;
+    outline: none;
+    border: none;
+    align-items: center;
+    justify-content: start;
+    height: 2.5rem;
+    color: var(--text-muted);
+    border-bottom-left-radius: var(--bs-border-radius);
+    border-bottom-right-radius: var(--bs-border-radius);
+}
+
+.add-task-btn:hover {
+    color: var(--text-color);
+    background: var(--task-bg-hover);
+}
+
+/* Task styles */
+.task {
+    display: flex;
+    align-items: center;
+    background: var(--task-bg);
+    color: var(--text-color);
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border-radius: var(--bs-border-radius-sm);
+    box-shadow: var(--bs-box-shadow-sm);
+    cursor: pointer;
+}
+
+.task:hover {
+    background: var(--task-bg-hover);
+}
+
+.column.drag-over {
+    background: var(--drop-over-bg); /* highlight on drag over */
+}

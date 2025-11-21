@@ -123,7 +123,7 @@ class userController {
 
     public function logout() {
         try {
-            if ($_SERVER("REQUEST_METHOD") !== "POST") {
+            if ($_SERVER["REQUEST_METHOD"] !== "POST") {
                 http_response_code(405);
                 echo json_encode(['error' => 'Method not POST']);
                 return;
@@ -147,7 +147,7 @@ class userController {
 
     public function getUserById($id) {
         try {
-            if ($_SERVER("REQUEST_METHOD") !== "POST") {
+            if ($_SERVER["REQUEST_METHOD"] !== "POST") {
                 http_response_code(405);
                 echo json_encode(['error' => 'Method not POST']);
                 return;
@@ -165,7 +165,7 @@ class userController {
                 unset($user['password']);
 
                 http_response_code(200);
-                echo json_encode([$user]);
+                echo json_encode($user);
             } else {
                 http_response_code(404);
                 echo json_encode(['error' => 'User not found']);

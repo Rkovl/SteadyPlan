@@ -4,8 +4,8 @@
 
             <div class="d-flex align-items-center w-100">
                 <a href="/" class="navbar-brand d-flex align-items-center gap-2 fw-bold me-auto">
-                    <img src="/public/images/SteadyPlan_Logo.png" alt="Logo" width="40" height="40">
-                    <span>Steady Plan</span>
+                    <img src="/public/images/logo.svg" alt="Logo" width="48" height="48" class="logo-svg">
+                    <span class="fs-3">Steady Plan</span>
                 </a>
 
                 <button id="themeToggleBtnMobile"

@@ -1,9 +1,6 @@
 <footer class="bg-body-secondary mt-auto">
     <div class="container-fluid d-flex flex-wrap justify-content-between align-items-center py-3 px-4 px-lg-5 border-top">
         <div class="d-flex align-items-center">
-            <a href="/" class="d-flex text-body-emphasis text-decoration-none align-items-center me-3" aria-label="Home">
-                <img src="/public/images/SteadyPlan_Logo.png" alt="Logo" class="me-2 rounded" width="30" height="30" style="display: block;">
-            </a>
             <span class="text-body-secondary">© 2025 Steady Plan</span>
         </div>
         <ul class="nav list-unstyled d-flex align-items-center m-0">

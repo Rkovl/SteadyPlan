@@ -50,13 +50,13 @@ function addTask($text, $taskID) {
 function loadTasksForColumn($columnID) {
     // db load logic can be added here in the future
     global $database;
-    $stmt = $database->getConnection()->prepare("SELECT id, description FROM tasks WHERE column_id = :columnID");
+    $stmt = $database->getConnection()->prepare("SELECT id, name FROM tasks WHERE column_id = :columnID");
     $stmt->bindParam(':columnID', $columnID);
     $stmt->execute();
     $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if ($tasks) {
         foreach ($tasks as $task) {
-            addTask($task['description'], $task['id']);
+            addTask($task['name'], $task['id']);
         }
     }
 }

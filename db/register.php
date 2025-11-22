@@ -5,30 +5,35 @@ require_once __DIR__ . '/../repos/userRepo.php';
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $email = $_POST['email'] ?? null;
+    $username = $_POST['username'] ?? null;
+    $password = $_POST['password'] ?? null;
 
-    $userRepo = new userRepo();
-    $user = $userRepo->getUserByUsername($username);
+    if (!$username || !$email || !$password) {
+        $error = "All fields are required";
+    } elseif (strlen($password) < 6) {
+        $error = "Password must be at least 6 characters long";
+    } else {
+        $userRepo = new userRepo();
+        $userId = $userRepo->register($password, $username, $email);
 
-    if ($user) {
-        if (password_verify($password, $user['password'])) {
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
-            header('Location: dashboard.php');
+        if ($userId) {
+            header("Location: login.php");
             exit();
+        } else {
+            $error = "Username or email already exists";
         }
     }
-    $error = "Wrong username or password";
 }
 ?>
+
 
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login - Steady Plan</title>
+    <title>Register - Steady Plan</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -45,33 +50,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </header>
 
-<main class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+<main class="d-flex justify-content-center align-items-center" style="min-height: 70vh;">
     <div class="card p-4 shadow" style="width: 100%; max-width: 600px;">
-        <h2 class="text-center mb-4">Login</h2>
+        <h2 class="text-center mb-4">Register</h2>
         <?php if ($error): ?>
             <div class="alert alert-danger"><?php echo $error; ?></div>
         <?php endif; ?>
-        <form method="POST" action="login.php" class="needs-validation" novalidate>
+        <form method="POST" action="register.php" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email"
+                       placeholder="Enter your email" value="<?php echo htmlspecialchars($email ?? ''); ?>" required>
+                <div class="invalid-feedback">
+                    Please enter a valid email.
+                </div>
+            </div>
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" class="form-control" id="username" name="username"
-                       placeholder="Enter username" value="<?php echo htmlspecialchars($username ?? ''); ?>" required>
-
+                       placeholder="Choose a username" value="<?php echo htmlspecialchars($username ?? ''); ?>"
+                       required>
                 <div class="invalid-feedback">
-                    Please enter your username.
+                    Please enter a username.
                 </div>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Enter password"
-                       required>
-                <div class="invalid-feedback">
-                    Please enter your password.
+                <input type="password" class="form-control" id="password" name="password"
+                       placeholder="Enter password" required minlength="6">
+                <div class="invalid-feedback" id="passwordFeedback">
+                    Please enter a password.
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary w-100">Login</button>
+            <button type="submit" class="btn btn-primary w-100">Register</button>
         </form>
-        <p class="text-center mt-3">Don't have an account? <a href="register.php">Sign up</a></p>
+
+        <p class="text-center mt-3">Already have an account? <a href="login.php">Login</a></p>
     </div>
 </main>
 
@@ -81,12 +95,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <span class="mb-3 mb-md-0 text-body-secondary">© 2025 Company, Inc</span>
         </div>
         <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-            <li class="ms-3">
-                <a class="text-body-secondary" href="#" aria-label="Instagram">Instagram</a>
-            </li>
-            <li class="ms-3">
-                <a class="text-body-secondary" href="#" aria-label="Facebook">Facebook</a>
-            </li>
+            <li class="ms-3"><a class="text-body-secondary" href="#">Instagram</a></li>
+            <li class="ms-3"><a class="text-body-secondary" href="#">Facebook</a></li>
         </ul>
     </footer>
 </div>
@@ -98,10 +108,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         const forms = document.querySelectorAll('.needs-validation')
         Array.from(forms).forEach(form => {
             form.addEventListener('submit', event => {
+                const passwordInput = form.querySelector('#password');
+                const feedback = form.querySelector('#passwordFeedback');
                 if (!form.checkValidity()) {
                     event.preventDefault()
                     event.stopPropagation()
                 }
+
+                if (passwordInput.value.length === 0) {
+                    feedback.textContent = "Please enter a password."
+                } else if (passwordInput.value.length < 6) {
+                    feedback.textContent = "Password must be at least 6 characters."
+                }
+
                 form.classList.add('was-validated')
             }, false)
         })

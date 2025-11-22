@@ -36,6 +36,7 @@ body {
     user-select: none; /* prevent text selection during drag-and-drop */
     font-family: var(--main-font), sans-serif;
     background-color: var(--bg-color);
+    overflow: hidden;
 }
 
 /* Headings */
@@ -48,7 +49,7 @@ h1, h2, h3, h4, h5, h6 {
 main {
     padding: 1rem;
     box-sizing: border-box;
-    overflow: auto; /* Enable scrolling if content overflows */
+    height: calc(100vh - 10rem); /* Full viewport height minus header/footer */
 }
 
 /* Board styles */
@@ -64,16 +65,21 @@ main {
 /* Column styles */
 .column {
     display: flex;
+    overflow: hidden;
     flex-direction: column;
     background: var(--column-bg);
     border-radius: var(--bs-border-radius);
     padding-top: 1rem;
     min-width: var(--column-min-width);
+    height: 100%;
 }
 
 .task_container {
     background: transparent;
     padding: 1rem;
+    overflow-y: auto;
+    flex: 1;
+    /*min-height: 0;*/
 }
 
 .add-task-btn {

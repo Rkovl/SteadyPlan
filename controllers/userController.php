@@ -31,6 +31,12 @@ class userController {
                 return;
             }
 
+            if(strlen($data["password"]) < 8) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Password must be at least 8 characters']);
+                return;
+            }
+
             if(isset($data["username"]) && $this->userRepo->getUserByUsername($data["username"])) {
                 http_response_code(400);
                 echo json_encode(['error' => 'Username already taken']);

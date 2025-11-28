@@ -1,12 +1,12 @@
 <?php
-require_once(__DIR__ . "/../repos/userRepo.php");
-require_once(__DIR__ . '/../db/verifyUUID.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/repos/userRepo.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/db/verifyUUID.php');
 
 class userController {
     private $userRepo;
 
     function __construct() {
-        $this->userRepo = new userRepo();
+        $this->userRepo = new UserRepo();
     }
 
     function register() {

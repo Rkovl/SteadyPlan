@@ -1,8 +1,8 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . "/db/database.php";
-require_once "column-task.php";
-$database = new Database();
-
+require_once ($_SERVER['DOCUMENT_ROOT'] . "/db/database.php");
+require_once ("column-task.php");
+require_once ($_SERVER['DOCUMENT_ROOT'] . "/repos/columnRepo.php");
+$columnRepo = new ColumnRepo();
 function addColumn($id, $title) {
     echo "   
         <div class='column'>
@@ -25,14 +25,9 @@ function saveColumn($id, $title) {
     // db save logic can be added here in the future
 }
 
-function getProjectColumns($projectID) {
-    // db load logic can be added here in the future
-    global $database;
-    // Fetch column UUIDs
-    $stmt = $database->getConnection()->prepare("SELECT id, name FROM columns WHERE project_id = :projectID ORDER BY position");
-    $stmt->bindParam(':projectID', $projectID);
-    $stmt->execute();
-    $columns = $stmt->fetchAll(PDO::FETCH_ASSOC);
+function getColumns($projectID) {
+    global $columnRepo;
+    $columns = $columnRepo->getProjectColumns($projectID);
 
     if ($columns) {
         foreach ($columns as $column) {
@@ -44,5 +39,5 @@ function getProjectColumns($projectID) {
 }
 
 // load columns for test project
-getProjectColumns('f31554b1-3a6e-44ad-b3a7-db9112878b8c');
+getColumns('f31554b1-3a6e-44ad-b3a7-db9112878b8c');
 

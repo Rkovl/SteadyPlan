@@ -1,0 +1,37 @@
+/* Theme-aware variables using Bootstrap's CSS variables */
+:root {
+    /* Fonts */
+    --main-font: 'Segoe UI', Verdana;
+
+    /* Colors - Using Bootstrap theme-aware variables */
+    --bg-color: var(--bs-body-bg);
+    --text-color: var(--bs-body-color);
+    --text-muted: var(--bs-secondary-color);
+    --heading-color: var(--bs-emphasis-color);
+    --label-color: var(--bs-body-color);
+
+    /* Dropdowns - Using Bootstrap variables */
+    --dropdown-bg: var(--bs-body-bg);
+    --dropdown-hover-bg: var(--bs-tertiary-bg);
+
+    /* Custom properties for specific elements */
+    --dropdown-min-width: 160px;
+}
+
+[data-bs-theme="light"] .logo-svg {
+    filter: invert(1);
+}
+
+/* Global styles */
+body {
+    margin: 0;
+    font-family: var(--main-font), sans-serif;
+    background-color: var(--bg-color);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    text-align: center;
+    margin-top: 1rem;
+    color: var(--heading-color);
+}

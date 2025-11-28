@@ -1,5 +1,4 @@
 <?php
-    require_once __DIR__.'/../db/auth.php';
     $isLoggedIn = isLoggedIn();
     //$isLoggedIn = true; //for testing purposes
 ?>
@@ -27,7 +26,7 @@
 
             <div class="collapse navbar-collapse w-100 mt-2 mt-sm-0" id="mainNav">
                 <ul class="navbar-nav ms-auto flex-column flex-sm-row align-items-end gap-2">
-                    <li class="d-none d-sm-inline-block">
+                    <li>
                         <button id="themeToggleBtnDesktop"
                                 class="btn btn-light theme-button"
                                 aria-label="Toggle Theme"

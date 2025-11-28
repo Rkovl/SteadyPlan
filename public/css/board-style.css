@@ -1,15 +1,5 @@
 /* Theme-aware variables using Bootstrap's CSS variables */
 :root {
-    /* Fonts */
-    --main-font: 'Segoe UI', Verdana;
-
-    /* Colors - Using Bootstrap theme-aware variables */
-    --bg-color: var(--bs-body-bg);
-    --text-color: var(--bs-body-color);
-    --text-muted: var(--bs-secondary-color);
-    --heading-color: var(--bs-emphasis-color);
-    --label-color: var(--bs-body-color);
-
     /* Cards and columns - Using Bootstrap variables */
     --column-bg: var(--bs-secondary-bg);
     --card-bg: var(--bs-body-bg);
@@ -17,12 +7,7 @@
     --task-bg-hover: var(--bs-tertiary-bg);
     --drop-over-bg: var(--bs-dark-bg-subtle);
 
-    /* Dropdowns - Using Bootstrap variables */
-    --dropdown-bg: var(--bs-body-bg);
-    --dropdown-hover-bg: var(--bs-tertiary-bg);
-
     /* Custom properties for specific elements */
-    --dropdown-min-width: 160px;
     --column-min-width: 350px;
 }
 
@@ -32,18 +17,8 @@
 
 /* Global styles */
 body {
-    margin: 0;
     user-select: none; /* prevent text selection during drag-and-drop */
-    font-family: var(--main-font), sans-serif;
-    background-color: var(--bg-color);
     overflow: hidden;
-}
-
-/* Headings */
-h1, h2, h3, h4, h5, h6 {
-    text-align: center;
-    margin-top: 1rem;
-    color: var(--heading-color);
 }
 
 main {

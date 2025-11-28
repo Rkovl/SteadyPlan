@@ -1,3 +1,8 @@
+<?php
+    require_once __DIR__.'/../db/auth.php';
+    $isLoggedIn = isLoggedIn();
+    //$isLoggedIn = true; //for testing purposes
+?>
 <header class="bg-body-secondary border-bottom shadow-sm">
     <nav class="navbar navbar-expand-sm">
         <div class="container-fluid">
@@ -30,15 +35,23 @@
                             <i class="bi bi-sun"></i>
                         </button>
                     </li>
-                    <li>
-                        <button type="button" class="btn btn-outline-secondary px-4">Login</button>
-                    </li>
-                    <li>
-                        <button type="button" class="btn btn-primary px-4">Sign Up</button>
-                    </li>
+                    <?php if ($isLoggedIn): ?>
+                        <li>
+                            <button type="button" class="btn btn-outline-secondary px-4">Dashboard</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-primary px-4">Logout</button>
+                        </li>
+                    <?php else: ?>
+                        <li>
+                            <button type="button" class="btn btn-outline-secondary px-4">Login</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-primary px-4">Sign Up</button>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
-
         </div>
     </nav>
 </header>

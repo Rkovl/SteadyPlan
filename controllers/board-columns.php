@@ -2,7 +2,7 @@
 require_once ($_SERVER['DOCUMENT_ROOT'] . "/db/database.php");
 require_once ("column-task.php");
 require_once ($_SERVER['DOCUMENT_ROOT'] . "/repos/columnRepo.php");
-$columnRepo = new ColumnRepo();
+
 function addColumn($id, $title) {
     echo "   
         <div class='column'>
@@ -26,8 +26,7 @@ function saveColumn($id, $title) {
 }
 
 function getColumns($projectID) {
-    global $columnRepo;
-    $columns = $columnRepo->getProjectColumns($projectID);
+    $columns = ColumnRepo::getProjectColumns($projectID);
 
     if ($columns) {
         foreach ($columns as $column) {

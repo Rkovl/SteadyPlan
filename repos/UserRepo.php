@@ -1,17 +1,13 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . '/db/database.php');
-class UserRepo {
-    private $db;
+require_once($_SERVER['DOCUMENT_ROOT'] . '/repos/BaseRepo.php');
 
-    public function __construct() {
-        $this->db = Database::getInstance()->getConnection();
-    }
-
-    public function register($password, $username = null, $email = null) {
+class UserRepo extends BaseRepo {
+    public static function register($password, $username = null, $email = null) {
         $query = "INSERT INTO users (username, email, password) VALUES (:username, :email, :password) RETURNING id";
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $stmt = $this->db->prepare($query);
+        $stmt = BaseRepo::getDB()->prepare($query);
         $stmt->bindParam(':username', $username);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':password', $hashedPassword);
@@ -24,61 +20,61 @@ class UserRepo {
         return $row['id'];
     }
 
-    public function getUserById($id) {
+    public static function getUserById($id) {
         $query = "SELECT * FROM users WHERE id = :id";
-        $stmt = $this->db->prepare($query);
+        $stmt = BaseRepo::getDB()->prepare($query);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getUserByUsername($username) {
+    public static function getUserByUsername($username) {
         $query = "SELECT * FROM users WHERE username = :username";
-        $stmt = $this->db->prepare($query);
+        $stmt = BaseRepo::getDB()->prepare($query);
         $stmt->bindParam(':username', $username);
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getUserByEmail($email) {
+    public static function getUserByEmail($email) {
         $query = "SELECT * FROM users WHERE email = :email";
-        $stmt = $this->db->prepare($query);
+        $stmt = BaseRepo::getDB()->prepare($query);
         $stmt->bindParam(':email', $email);
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function updateUsername($username, $id) {
+    public static function updateUsername($username, $id) {
         $query = "UPDATE users SET username = :username WHERE id = :id";
-        $stmt = $this->db->prepare($query);
+        $stmt = BaseRepo::getDB()->prepare($query);
         $stmt->bindParam(':username', $username);
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
     }
 
-    public function updateEmail($email, $id) {
+    public static function updateEmail($email, $id) {
         $query = "UPDATE users SET email = :email WHERE id = :id";
-        $stmt = $this->db->prepare($query);
+        $stmt = BaseRepo::getDB()->prepare($query);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
     }
 
-    public function updatePassword($password, $id) {
+    public static function updatePassword($password, $id) {
         $query = "UPDATE users SET password = :password WHERE id = :id";
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $this->db->prepare($query);
+        $stmt = BaseRepo::getDB()->prepare($query);
         $stmt->bindParam(':password', $hashedPassword);
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
     }
 
-    public function deleteUser($id) {
+    public static function deleteUser($id) {
         $query = "DELETE FROM users WHERE id = :id";
-        $stmt = $this->db->prepare($query);
+        $stmt = BaseRepo::getDB()->prepare($query);
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
     }

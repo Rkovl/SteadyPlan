@@ -1,7 +1,6 @@
 <?php
 require_once ($_SERVER['DOCUMENT_ROOT'] . "/db/database.php");
 require_once ($_SERVER['DOCUMENT_ROOT'] . "/repos/taskRepo.php");
-$taskRepo = new TaskRepo();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action'])) {
@@ -9,14 +8,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($action === 'addTask' && isset($_POST['text']) && isset($_POST['columnID'])) {
             $text = $_POST['text'];
             // Insert task into database
-            $taskID = $taskRepo->createTask(0, $_POST['columnID'], $text); // Assuming projectID is 0 for now
+            $taskID = TaskRepo::createTask(0, $_POST['columnID'], $text); // Assuming projectID is 0 for now
             addTask($text, $taskID);
         } elseif ($action === 'deleteTask' && isset($_POST['taskID'])) {
             // Delete task from database
-            $taskRepo->deleteTask($_POST['taskID']);
+            TaskRepo::deleteTask($_POST['taskID']);
         } elseif ($action === 'moveTask' && isset($_POST['taskID']) && isset($_POST['newColumnID'])) {
             // Update task in database
-            $taskRepo->changeColumn($_POST['newColumnID'], $_POST['taskID']);
+            TaskRepo::changeColumn($_POST['newColumnID'], $_POST['taskID']);
         } else {
             http_response_code(400);
             echo "Invalid action or missing parameters.";
@@ -33,8 +32,7 @@ function addTask($text, $taskID) {
 }
 
 function loadTasksForColumn($columnID) {
-    global $taskRepo;
-    $tasks = $taskRepo->getTasksFromColumn($columnID);
+    $tasks = TaskRepo::getTasksFromColumn($columnID);
     if ($tasks) {
         foreach ($tasks as $task) {
             addTask($task['name'], $task['id']);

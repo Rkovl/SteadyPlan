@@ -3,7 +3,7 @@
 require_once(__DIR__ . "/../repos/userRepo.php");
 require_once(__DIR__ . '/../db/verifyUUID.php');
 
-class userController {
+class UserController {
     private $userRepo;
 
     function __construct() {
@@ -20,7 +20,7 @@ class userController {
 
             $data = json_decode(file_get_contents("php://input"), true);
 
-            if ((!isset($data["email"]) && !isset($data["username"])) || !isset($data["password"])) {
+            if ((!isset($data["email"]) && !isset($data["username"])) && !isset($data["password"])) {
                 http_response_code(400);
                 echo json_encode(['error' => 'Email or username and password are required']);
                 return;

@@ -1,11 +1,14 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . '/db/database.php');
+require_once($_SERVER['DOCUMENT_ROOT'] / '/repos/ProjectRepo.php');
 
 class ProjectUserRepo {
     private $db;
+    private $projectRepo;
 
     public function __construct() {
         $this->db = Database::getInstance()->getConnection();
+        $this->projectRepo = new ProjectRepo();
     }
 
     public function addProjectUser($projectID, $userID) {
@@ -33,11 +36,13 @@ class ProjectUserRepo {
     }
 
     public function removeUserProject($projectID, $userID) {
-        $query = "DELETE FROM projects_users WHERE project_id = :projectID AND user_id = :userID";
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':projectID', $projectID);
-        $stmt->bindParam(':userID', $userID);
-        return $stmt->execute();
+        if(!$this->projectRepo->getOwner($userID)) {
+            $query = "DELETE FROM projects_users WHERE project_id = :projectID AND user_id = :userID";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':projectID', $projectID);
+            $stmt->bindParam(':userID', $userID);
+            return $stmt->execute();
+        }
     }
 }
 

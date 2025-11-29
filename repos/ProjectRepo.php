@@ -45,5 +45,12 @@ class ProjectRepo {
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
     }
+
+    public function getOwner($projectID) {
+        $query = "SELECT owner FROM projects WHERE id = :projectID";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':projectID', $projectID);
+        $stmt->execute();
+    }
 }
 

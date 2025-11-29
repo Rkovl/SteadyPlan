@@ -1,12 +1,13 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/repos/userRepo.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/db/verifyUUID.php');
+
+require_once(__DIR__ . "/../repos/userRepo.php");
+require_once(__DIR__ . '/../db/verifyUUID.php');
 
 class userController {
     private $userRepo;
 
     function __construct() {
-        $this->userRepo = new UserRepo();
+        $this->userRepo = new userRepo();
     }
 
     function register() {
@@ -49,10 +50,10 @@ class userController {
               return;
             }
 
-            $username = htmlspecialchars(trim($data["username"]));
-            $email = isset($data["email"]) ? trim($data["email"]) : null;
-            $password = password_hash($data["password"], PASSWORD_DEFAULT);
-            $user = new User($username, $email, $password);
+            $user = new User();
+            $user->username = htmlspecialchars(trim($data["username"]));
+            $user->email = isset($data["email"]) ? trim($data["email"]) : null;
+            $user->password = password_hash($data["password"], PASSWORD_DEFAULT);
 
             $userId = $this->userRepo->register($user);
 

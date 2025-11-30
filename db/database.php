@@ -25,8 +25,8 @@ class Database {
     }
 
     private function connect() {
-        if(file_exists(__DIR__.'/../.env.local')){
-            $lines = file(__DIR__.'/../.env.local', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        if(file_exists($_SERVER['DOCUMENT_ROOT'] . '/.env.local')){
+            $lines = file($_SERVER['DOCUMENT_ROOT'] . '/.env.local', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
             foreach ($lines as $line) {
                 putenv($line);
             }
@@ -34,15 +34,29 @@ class Database {
 
         $database_url = getenv('DATABASE_URL');
 
+        if (!$database_url) {
+            error_log("DB Connection failed: DATABASE_URL environment variable is not set");
+            $this->connection = null;
+            return;
+        }
+
         try {
             // Parse the DATABASE_URL
             $url = parse_url($database_url);
 
+            if ($url === false) {
+                throw new PDOException("Invalid DATABASE_URL format");
+            }
+
             $host = $url['host'] ?? 'localhost';
             $port = $url['port'] ?? 5432;
-            $dbname = ltrim($url['path'], '/');
+            $dbname = ltrim($url['path'] ?? '', '/');
             $user = $url['user'] ?? '';
             $password = $url['pass'] ?? '';
+
+            if (empty($dbname)) {
+                throw new PDOException("Database name not found in DATABASE_URL");
+            }
 
             // Build PDO connection string
             $dsn = "pgsql:host={$host};port={$port};dbname={$dbname}";

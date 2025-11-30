@@ -1,0 +1,98 @@
+/* Theme-aware variables using Bootstrap's CSS variables */
+:root {
+    /* Cards and columns - Using Bootstrap variables */
+    --column-bg: var(--bs-secondary-bg);
+    --card-bg: var(--bs-body-bg);
+    --task-bg: var(--bs-body-bg);
+    --task-bg-hover: var(--bs-tertiary-bg);
+    --drop-over-bg: var(--bs-dark-bg-subtle);
+
+    /* Custom properties for specific elements */
+    --column-min-width: 350px;
+}
+
+[data-bs-theme="light"] .logo-svg {
+    filter: invert(1);
+}
+
+/* Global styles */
+body {
+    user-select: none; /* prevent text selection during drag-and-drop */
+    overflow: hidden;
+}
+
+main {
+    padding: 1rem;
+    box-sizing: border-box;
+    height: calc(100vh - 10rem); /* Full viewport height minus header/footer */
+}
+
+/* Board styles */
+.board {
+    display: flex;
+    flex-grow: 1;
+    height: 100%;
+    width: fit-content;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+/* Column styles */
+.column {
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    background: var(--column-bg);
+    border-radius: var(--bs-border-radius);
+    padding-top: 1rem;
+    min-width: var(--column-min-width);
+    height: 100%;
+}
+
+.task_container {
+    background: transparent;
+    padding: 1rem;
+    overflow-y: auto;
+    flex: 1;
+    /*min-height: 0;*/
+}
+
+.add-task-btn {
+    background: transparent;
+    margin-top: auto;
+    display: flex;
+    outline: none;
+    border: none;
+    align-items: center;
+    justify-content: start;
+    height: 2.5rem;
+    color: var(--text-muted);
+    border-bottom-left-radius: var(--bs-border-radius);
+    border-bottom-right-radius: var(--bs-border-radius);
+}
+
+.add-task-btn:hover {
+    color: var(--text-color);
+    background: var(--task-bg-hover);
+}
+
+/* Task styles */
+.task {
+    display: flex;
+    align-items: center;
+    background: var(--task-bg);
+    color: var(--text-color);
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border-radius: var(--bs-border-radius-sm);
+    box-shadow: var(--bs-box-shadow-sm);
+    cursor: pointer;
+}
+
+.task:hover {
+    background: var(--task-bg-hover);
+}
+
+.column.drag-over {
+    background: var(--drop-over-bg); /* highlight on drag over */
+}

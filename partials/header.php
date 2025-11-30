@@ -1,21 +1,56 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Partial Test</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/stylesheet.css">
-  </head>
-        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom container"> 
-            <div class="col-md-3 mb-2 mb-md-0"> 
-                <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none align-items-center fw-bold"> 
-                    <img src="./images/SteadyPlan_Logo.png" alt="Logo" class="bi me-2" width="40" height="40">
-                    Steady Plan
-                </a> 
-            </div> 
-            <div class="col-md-3 text-end"> 
-                <button type="button" class="btn btn-outline-primary me-2">Login</button> 
-                <button type="button" class="btn btn-primary">Sign-up</button> 
-            </div> 
-        </header>
+<?php
+    $isLoggedIn = isLoggedIn();
+    //$isLoggedIn = true; //for testing purposes
+?>
+<header class="bg-body-secondary border-bottom shadow-sm">
+    <nav class="navbar navbar-expand-sm">
+        <div class="container-fluid">
+
+            <div class="d-flex align-items-center w-100">
+                <a href="/" class="navbar-brand d-flex align-items-center gap-2 fw-bold me-auto">
+                    <img src="/public/images/logo.svg" alt="Logo" width="48" height="48" class="logo-svg">
+                    <span class="fs-3">Steady Plan</span>
+                </a>
+
+                <button id="themeToggleBtnMobile"
+                        class="btn btn-light d-sm-none me-2 theme-button"
+                        aria-label="Toggle Theme"
+                        onclick="toggleTheme()">
+                    <i class="bi bi-sun"></i>
+                </button>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                        aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+
+            <div class="collapse navbar-collapse w-100 mt-2 mt-sm-0" id="mainNav">
+                <ul class="navbar-nav ms-auto flex-column flex-sm-row align-items-end gap-2">
+                    <li>
+                        <button id="themeToggleBtnDesktop"
+                                class="btn btn-light theme-button"
+                                aria-label="Toggle Theme"
+                                onclick="toggleTheme()">
+                            <i class="bi bi-sun"></i>
+                        </button>
+                    </li>
+                    <?php if ($isLoggedIn): ?>
+                        <li>
+                            <button type="button" class="btn btn-outline-secondary px-4">Dashboard</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-primary px-4">Logout</button>
+                        </li>
+                    <?php else: ?>
+                        <li>
+                            <button type="button" class="btn btn-outline-secondary px-4">Login</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-primary px-4">Sign Up</button>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

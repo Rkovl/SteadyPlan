@@ -1,4 +1,4 @@
-$('#registerForm').on('submit', async e => {
+$('#loginForm').on('submit', async (e) => {
     e.preventDefault();
 
     // Client-side validation
@@ -8,27 +8,17 @@ $('#registerForm').on('submit', async e => {
         return;
     }
 
-    const $passwordInput = $('#password');
-    const $feedback = $('#passwordFeedback');
-    if ($passwordInput.val().length === 0) {
-        $feedback.text("Please enter a password.");
-        return;
-    } else if ($passwordInput.val().length < 8) {
-        $feedback.text("Password must be at least 8 characters.");
-        return;
-    }
-
     const errorAlert = $('#error-alert');
     errorAlert.addClass('d-none');
 
     const formData = {
-        email: $('#email').val(),
         username: $('#username').val(),
-        password: $passwordInput.val()
+        password: $('#password').val(),
+        remember_me: $('#remember_me').is(':checked') ? 1 : 0
     };
 
     try {
-        const response = await fetch('/SteadyPlan/api/register.php', {
+        const response = await fetch('/api/login.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
@@ -37,12 +27,14 @@ $('#registerForm').on('submit', async e => {
         const data = await response.json();
 
         if (response.ok) {
-            window.location.href = '/public/login.php';
+            window.location.href = '/public/dashboard.php';
         } else {
-            errorAlert.text(data.error || 'Registration failed');
+            // Server-side error
+            errorAlert.text(data.error || 'Login failed');
             errorAlert.removeClass('d-none');
         }
     } catch (error) {
+        // Network/parsing error
         errorAlert.text('An error occurred. Please try again.');
         errorAlert.removeClass('d-none');
     }

@@ -1,5 +1,5 @@
-function tableRowOutline(projectName, ownerName, numUsers, numCols, numTasks) {
-    return`<tr>
+function tableRowOutline(project_id, projectName, ownerName, numUsers, numCols, numTasks) {
+    return`<tr id="${project_id}">
             <td>${projectName}</td>
             <td>
                 <div class="d-flex align-items-center justify-content-center">
@@ -21,6 +21,7 @@ function tableRowOutline(projectName, ownerName, numUsers, numCols, numTasks) {
 function populateProjectsTable(projects) {
     document.getElementById('projectTableBody').innerHTML += projects.map(project =>
         tableRowOutline(
+            project.PROJECT_ID,
             project.NAME,
             project.OWNER,
             project.NUMUSERS,
@@ -57,7 +58,7 @@ $(document).ready(() => {
 
 $(document).on('click', '.openButton', event => {
     let projectName = $(event.currentTarget).closest('tr').find('td:first').text();
-    window.location.href = `../project-board.php`;
+    window.location.href = `../project-board.php?project=${encodeURIComponent(projectName)}`;
 });
 
 $(document).on('click', '.editButton', event => {
@@ -73,12 +74,13 @@ $(document).on('click', '#addProject', event => {
 });
 
 $('#nameChange').on('click', event => {
+    let projectID = $(event.currentTarget).closest('tr').prop("id")
     const payload = {
-        project_id: "",
-        user_id: ""
+        project_id: `${projectID}`,
+        new_name: $('#projectNameInput').val()
     };
 
-    fetch("/api/addProjectUser.php", {
+    fetch("/api/changeProjectName.php", {
     method: "POST",
     headers: {
         "Content-Type": "application/json"
@@ -102,7 +104,32 @@ $('#nameChange').on('click', event => {
 });
 
 $('addUser').on('click', event => {
-    
+    let projectID = $(event.currentTarget).closest('tr').prop("id")
+    const payload = {
+        project_id: `${projectID}`,
+        user_id: $('#userIDInput').val()
+    };
+
+    fetch("/api/addProjectUser.php", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+    })
+    .then(async (res) => {
+        if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `HTTP ${res.status}`);
+        }
+        return res.json().catch(() => ({})); // if endpoint returns JSON
+    })
+    .then((data) => {
+        console.log("Success:", data);
+    })
+    .catch((err) => {
+        console.error("Request failed:", err.message);
+    });
 });
 
 $('#closeOverlay').on('click', event => {

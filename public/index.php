@@ -5,7 +5,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
 <html lang="en">
 <head>
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/partials/defaultHead.php'; ?>
-    <link rel="stylesheet" href="/public/css/default.css">
     <title>Home</title>
     <style>
         html[data-bs-theme="light"] body {

@@ -41,9 +41,9 @@ class ProjectRepo extends BaseRepo {
         return $stmt->execute();
     }
 
-    public function getOwner($projectID) {
+    public static function getOwner($projectID) {
         $query = "SELECT owner FROM projects WHERE id = :projectID";
-        $stmt = $this->db->prepare($query);
+        $stmt = BaseRepo::getDB()->prepare($query);
         $stmt->bindParam(':projectID', $projectID);
         $stmt->execute();
     }

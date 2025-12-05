@@ -25,12 +25,12 @@ function populateProjectsTable(projects) {
     tbody.innerHTML = ''; // Clear existing rows
     tbody.innerHTML += projects.map(project =>
         tableRowOutline(
-            project.PROJECT_ID,
-            project.PROJECT_NAME,
-            project.OWNER,
-            project.NUMCOLS,
-            project.NUMTASKS,
-            project.NUMUSERS
+            project.project_id,
+            project.project_name,
+            project.owner,
+            project.numcols,
+            project.numtasks,
+            project.numusers
         )
     ).join('');
 }
@@ -50,7 +50,16 @@ async function fetchProjects() {
         const data = await response.json();
 
         if (response.ok) {
-            // testProjects(data)
+            // --- TEST CODE START ---
+            console.log("1. Full API Response:", data);
+            console.log("2. Projects Array:", data.projects);
+
+            if (data.projects && data.projects.length > 0) {
+                console.log("3. First Project Keys:", Object.keys(data.projects[0]));
+            } else {
+                console.warn("4. The projects array is EMPTY or UNDEFINED.");
+            }
+            // --- TEST CODE END ---
             populateProjectsTable(data.projects);
             console.log('Projects fetched successfully');
         } else {

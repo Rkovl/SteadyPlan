@@ -29,22 +29,27 @@ function tableRowOutline(projectName, ownerName, numUsers, numCols, numTasks) {
 function populateProjectsTable(projects) {
     document.getElementById('projectsTableBody').innerHTML += projects.map(project => 
         tableRowOutline(
-            project.name,
-            project.user,
-            project.project_users,
-            project.columns,
-            project.tasks
+            project.NAME,
+            project.OWNER,
+            project.NUMUSERS,
+            project.NUMCOLS,
+            project.NUMTASKS
         )
     ).join('');
 }
 
 $(document).on('click', '.openButton', event => {
-    window.location.href = `/php/project-board.php?project=${event.target.innerHTML}`;
+    let projectName = $(event.currentTarget).closest('tr').find('td:first').text();
+    window.location.href = `/php/project-board.php?project=${projectName}`;
 });
 
 $(document).on('click', '.editButton', event => {
 });
 
 $(document).on('click', '.deleteButton', event => {
+});
+
+$(document).on('click', '#addProject', event => {
+    
 });
 

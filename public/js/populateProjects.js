@@ -72,26 +72,7 @@ $(document).on('click', '.deleteButton', event => {
         new_name: projectID
     };
 
-    fetch("/api/deleteProject.php", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify(payload)
-    })
-    .then(async (res) => {
-        if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.error || `HTTP ${res.status}`);
-        }
-        return res.json().catch(() => ({})); // if endpoint returns JSON
-    })
-    .then((data) => {
-        console.log("Success:", data);
-    })
-    .catch((err) => {
-        console.error("Request failed:", err.message);
-    });
+    serviceConnect(payload, "deleteProject");
 });
 
 $(document).on('click', '#addProject', event => {
@@ -101,26 +82,7 @@ $(document).on('click', '#addProject', event => {
         project_name: projectName
     };
 
-    fetch("/api/add-project.php", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify(payload)
-    })
-    .then(async (res) => {
-        if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.error || `HTTP ${res.status}`);
-        }
-        return res.json().catch(() => ({})); // if endpoint returns JSON
-    })
-    .then((data) => {
-        console.log("Success:", data);
-    })
-    .catch((err) => {
-        console.error("Request failed:", err.message);
-    });
+    serviceConnect(payload, "add-project");
 });
 
 $('#nameChange').on('click', event => {
@@ -130,26 +92,7 @@ $('#nameChange').on('click', event => {
         new_name: $('#projectNameInput').val()
     };
 
-    fetch("/api/changeProjectName.php", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify(payload)
-    })
-    .then(async (res) => {
-        if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.error || `HTTP ${res.status}`);
-        }
-        return res.json().catch(() => ({})); // if endpoint returns JSON
-    })
-    .then((data) => {
-        console.log("Success:", data);
-    })
-    .catch((err) => {
-        console.error("Request failed:", err.message);
-    });
+    serviceConnect(payload, "changeProjectName");
 
 });
 
@@ -160,7 +103,15 @@ $('addUser').on('click', event => {
         user_id: $('#userIDInput').val()
     };
 
-    fetch("/api/addProjectUser.php", {
+    serviceConnect(payload, "addProjectUser");
+});
+
+$('#closeOverlay').on('click', event => {
+    $('.overlay').css('display', 'none');
+});
+
+function serviceConnect(payload, endpoint) {
+    fetch(`/api/${endpoint}.php`, {
     method: "POST",
     headers: {
         "Content-Type": "application/json"
@@ -180,8 +131,4 @@ $('addUser').on('click', event => {
     .catch((err) => {
         console.error("Request failed:", err.message);
     });
-});
-
-$('#closeOverlay').on('click', event => {
-    $('.overlay').css('display', 'none');
-});
+}

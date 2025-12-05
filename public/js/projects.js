@@ -1,5 +1,8 @@
 const userID = document.body.dataset.userId;
 let currentEditProjectID = null;
+const projectsPerPage = 10;
+let currentPage = 1;
+let allProjects = [];
 
 function tableRowOutline(project_id, project_name, owner, numCols, numTasks, numUsers) {
     return `<tr id="${project_id}">
@@ -35,10 +38,57 @@ function populateProjectsTable(projects) {
         )
     ).join('');
 }
-function testProjects(data) {
-    data.projects.forEach((item) => {
-        console.log(item);
-    });
+
+function renderPaginationTabs(totalProjects) {
+    const totalPages = Math.ceil(totalProjects / projectsPerPage);
+    const tabsContainer = document.getElementById('paginationTabs');
+
+    if (!tabsContainer) return;
+
+    if (totalPages <= 1) {
+        tabsContainer.innerHTML = `
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Page 1</a>
+            </li>
+        `;
+        return;
+    }
+
+    let tabsHTML = '';
+    for (let i = 1; i <= totalPages; i++) {
+        const isActive = i === currentPage ? 'active' : '';
+        tabsHTML += `
+            <li class="nav-item">
+                <a class="nav-link page-tab ${isActive}" href="#" data-page="${i}">Page ${i}</a>
+            </li>
+        `;
+    }
+
+    tabsContainer.innerHTML = tabsHTML;
+}
+
+function renderPaginationInfo(totalProjects) {
+    const startIdx = (currentPage - 1) * projectsPerPage + 1;
+    const endIdx = Math.min(currentPage * projectsPerPage, totalProjects);
+    const infoElement = document.getElementById('paginationInfo');
+
+    if (!infoElement) return;
+
+    if (totalProjects === 0) {
+        infoElement.textContent = 'No projects found';
+    } else {
+        infoElement.textContent = `Showing ${startIdx} to ${endIdx} of ${totalProjects} entries`;
+    }
+}
+
+function displayCurrentPage() {
+    const startIdx = (currentPage - 1) * projectsPerPage;
+    const endIdx = startIdx + projectsPerPage;
+    const projectsToShow = allProjects.slice(startIdx, endIdx);
+
+    populateProjectsTable(projectsToShow);
+    renderPaginationTabs(allProjects.length);
+    renderPaginationInfo(allProjects.length);
 }
 
 async function fetchProjects() {
@@ -51,7 +101,8 @@ async function fetchProjects() {
         const data = await response.json();
 
         if (response.ok) {
-            populateProjectsTable(data.projects);
+            allProjects = data.projects || [];
+            displayCurrentPage();
         } else {
             console.error(data.error || 'Failed to fetch projects');
         }
@@ -62,6 +113,16 @@ async function fetchProjects() {
 
 $(document).ready(() => {
     fetchProjects();
+});
+
+// Handle page tab clicks
+$(document).on('click', '.page-tab', event => {
+    event.preventDefault();
+    const page = parseInt($(event.currentTarget).data('page'));
+    if (page !== currentPage) {
+        currentPage = page;
+        displayCurrentPage();
+    }
 });
 
 // Handle buttons
@@ -100,10 +161,35 @@ $(document).on('click', '#addProject', async event => {
         project_name: projectName
     };
     try {
-        await serviceConnect(payload, "add-project");
-        fetchProjects();
+        const response = await fetch(`/SteadyPlan/api/add-project.php`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            const err = await response.json().catch(() => ({}));
+            throw new Error(err.error || `HTTP ${response.status}`);
+        }
+
+        const data = await response.json().catch(() => ({}));
+        console.log("Success:", data);
+
+        // Clear input
+        $('#addProjectInput').val('');
+
+        // Refresh projects to get the new project with correct data
+        await fetchProjects();
+
+        // Navigate to last page (where new project will be)
+        const totalPages = Math.ceil(allProjects.length / projectsPerPage);
+        if (totalPages > 0) {
+            currentPage = totalPages;
+            displayCurrentPage();
+        }
     } catch (e) {
-        console.error("add project failed")
+        console.error("add project failed:", e.message);
+        alert("Failed to add project. Please try again.");
     }
 });
 
@@ -116,7 +202,7 @@ $('#nameChangeBtn').on('click', async event => {
     const rawValue = $('#nameChange').val()
     const safeValue = rawValue ? rawValue.trim() : ""
     if(!safeValue) {
-        alert("bad value")
+        alert("Please enter a valid project name")
         return;
     }
 
@@ -127,9 +213,21 @@ $('#nameChangeBtn').on('click', async event => {
     try {
         await serviceConnect(payload, "changeProjectName");
 
-        fetchProjects();
+        // Update the project in the array
+        const project = allProjects.find(p => p.project_id === currentEditProjectID);
+        if (project) {
+            project.project_name = safeValue;
+        }
+
+        // Refresh display
+        displayCurrentPage();
+
+        // Close the overlay
+        $('.overlay').css('display', 'none');
+        currentEditProjectID = null;
     } catch (e) {
-        console.error("change project name failed")
+        console.error("change project name failed");
+        alert("Failed to update project name. Please try again.");
     }
 });
 
@@ -152,6 +250,7 @@ $('#addUserBtn').on('click', async event => {
 
 $('#closeOverlay').on('click', event => {
     $('.overlay').css('display', 'none');
+    currentEditProjectID = null;
 });
 
 async function serviceConnect(payload, endpoint) {

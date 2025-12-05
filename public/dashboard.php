@@ -47,7 +47,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
 <main class="card text-center m-5 shadow">
     <div class="card-header">
         <div class="d-flex justify-content-between align-items-center">
-            <ul class="nav nav-tabs card-header-tabs">
+            <ul class="nav nav-tabs card-header-tabs" id="paginationTabs">
             <li class="nav-item">
                 <a class="nav-link active" aria-current="true" href="#">Page 1</a>
             </li>
@@ -77,8 +77,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
         </div>
     </div>
     <div class="card-footer text-body-secondary">
-        <div class="text-muted small">
-            <!-- Showing 1 to 6 of 6 entries -->
+        <div class="text-muted small" id="paginationInfo">
+            <!-- Pagination info will be dynamically generated -->
         </div>
     </div>
 </main>

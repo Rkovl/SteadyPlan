@@ -6,11 +6,13 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/repos/BaseRepo.php');
 class TokensRepo extends BaseRepo
 {
     public static function addToken($user_id, $token, $timestamp) {
+        $datetime = date('Y-m-d H:i:s', $timestamp);
+
         $query = "INSERT INTO tokens (user_id, token, timestamp) VALUES (:user_id, :token, :timestamp)";
         $stmt = BaseRepo::getDB()->prepare($query);
         $stmt->bindParam(':user_id', $user_id);
         $stmt->bindParam(':token', $token);
-        $stmt->bindParam(':timestamp', $timestamp);
+        $stmt->bindParam(':timestamp', $datetime);
         return $stmt->execute();
     }
 
@@ -57,9 +59,11 @@ class TokensRepo extends BaseRepo
     }
 
     public static function purgeTokens() {
+        $now = date('Y-m-d H:i:s');
+
         $query = "DELETE FROM tokens where timestamp < :current_timestamp";
         $stmt = BaseRepo::getDB()->prepare($query);
-        $stmt->bindParam(':current_timestamp', time());
+        $stmt->bindParam(':current_timestamp', $now);
         return $stmt->execute();
     }
 }

@@ -14,14 +14,15 @@ $('#loginForm').on('submit', async (e) => {
     const formData = {
         username: $('#username').val(),
         password: $('#password').val(),
-        remember_me: $('#remember_me').is(':checked') ? 1 : 0
+        remember_me: $('#remember_me').is(':checked')
     };
 
     try {
         const response = await fetch('/api/login.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(formData),
+            credentials: 'same-origin'
         });
 
         const data = await response.json();

@@ -1,5 +1,8 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once($_SERVER['DOCUMENT_ROOT'] . '/repos/TokensRepo.php');
 function isLoggedIn() {
     if (isset($_SESSION["user_id"])) {

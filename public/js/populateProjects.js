@@ -22,6 +22,7 @@ function tableRowOutline(project_id, projectName, ownerName, numUsers, numCols, 
 
 function populateProjectsTable(projects) {
     const tbody = document.getElementById('projectTableBody');
+    tbody.innerHTML = ''; // Clear existing rows
     tbody.innerHTML += projects.map(project =>
         tableRowOutline(
             project.project_id,

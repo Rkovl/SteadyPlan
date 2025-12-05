@@ -57,12 +57,13 @@ class ProjectRepo extends BaseRepo {
         SELECT
             p.id as PROJECT_ID,
             p.owner AS OWNER,
-            p.name AS NAME,
+            u.username AS NAME,
             (SELECT COUNT(c.id) FROM columns c WHERE c.project_id = p.id) AS NUMCOLS,
             (SELECT COUNT(t.id) FROM tasks t WHERE t.project_id = p.id) AS NUMTASKS,
             (SELECT COUNT(pu2.user_id) FROM projects_users pu2 WHERE pu2.project_id = p.id) AS NUMUSERS
         FROM projects_users pu
         JOIN projects p ON p.id = pu.project_id
+        JOIN users u on u.id = pu.user_id
         WHERE pu.user_id = :userID
         ";
         $stmt = BaseRepo::getDB()->prepare($query);

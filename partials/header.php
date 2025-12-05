@@ -33,6 +33,14 @@ $isLoggedIn = isLoggedIn();
                         </button>
                     </li>
                     <?php if ($isLoggedIn): ?>
+                        <li class="nav-item dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle px-4" data-bs-toggle="dropdown">
+                                Settings
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="account.php">User Account</a></li>
+                            </ul>
+                        </li>
                         <li>
                             <button type="button" class="btn btn-outline-secondary px-4" id="dashboardBtn">Dashboard
                             </button>

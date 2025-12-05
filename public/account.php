@@ -12,15 +12,17 @@ if (!isLoggedIn()) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/partials/defaultHead.php'; ?>
     <title>Account Settings</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php'; ?>
 <div class="container py-5" style="max-width: 700px">
     <h2>Account Settings</h2>
     <hr style="height: 5px; background-color: black; border: none;">
 
-    <form method="POST" class="mb-5 border p-3 bg-light needs-validation" novalidate>
+    <form method="POST" class="mb-5 border p-3 needs-validation" novalidate>
         <h4>Update Account Info</h4>
 
         <div class="mb-3">
@@ -47,7 +49,7 @@ if (!isLoggedIn()) {
         <button type="submit" name="update" class="btn btn-primary">Update Info</button>
     </form>
 
-    <form method="POST" class="mb-5 border p-3 bg-light needs-validation" novalidate>
+    <form method="POST" class="mb-5 border p-3 needs-validation" novalidate>
         <h4>Change Password</h4>
 
         <div class="mb-3">
@@ -76,7 +78,7 @@ if (!isLoggedIn()) {
         <button type="submit" name="change_password" class="btn btn-primary">Change Password</button>
     </form>
 
-    <form method="POST" class="border p-3 bg-light needs-validation" novalidate>
+    <form method="POST" class="border p-3 needs-validation" novalidate>
         <h4 class="text-danger">Delete Account</h4>
         <p>This action is permanent. Enter your password to confirm.</p>
         <div class="mb-3">
@@ -104,6 +106,10 @@ if (!isLoggedIn()) {
         })
     })()
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/public/js/main.js"></script>
+<script src="/public/js/themes.js"></script>
+<script src="/public/js/logout.js"></script>
 </body>
 </html>

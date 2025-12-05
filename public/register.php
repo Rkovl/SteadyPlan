@@ -46,8 +46,6 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/partials/footer.php';
 ?>
-<script src="/public/js/validate-input.js"></script>
-<script src="/public/js/validate-register.js"></script>
 <script src="/public/js/register.js"></script>
 </body>
 </html>

@@ -1,5 +1,4 @@
 <?php
-require_once __DIR__ . '/../controllers/userController.php';
 
 // $method represents the HTTP request type, $path is what kind of data you are passing eg. '/users',
 function route($method, $path) {

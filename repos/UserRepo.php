@@ -4,13 +4,12 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/repos/BaseRepo.php');
 
 class UserRepo extends BaseRepo {
     public static function register($user) {
-        $query = "INSERT INTO users (username, email, password, is_admin) VALUES (:username, :email, :password, :is_admin) RETURNING id";
+        $query = "INSERT INTO users (username, email, password) VALUES (:username, :email, :password) RETURNING id";
 
         $stmt = BaseRepo::getDB()->prepare($query);
         $stmt->bindParam(':username', $user->username);
         $stmt->bindParam(':email', $user->email);
         $stmt->bindParam(':password', $user->password);
-        $stmt->bindParam(':is_admin', $user->is_admin);
 
         if(!$stmt->execute()) {
             return null;

@@ -50,16 +50,6 @@ async function fetchProjects() {
         const data = await response.json();
 
         if (response.ok) {
-            // --- TEST CODE START ---
-            console.log("1. Full API Response:", data);
-            console.log("2. Projects Array:", data.projects);
-
-            if (data.projects && data.projects.length > 0) {
-                console.log("3. First Project Keys:", Object.keys(data.projects[0]));
-            } else {
-                console.warn("4. The projects array is EMPTY or UNDEFINED.");
-            }
-            // --- TEST CODE END ---
             populateProjectsTable(data.projects);
             console.log('Projects fetched successfully');
         } else {

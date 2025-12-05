@@ -85,6 +85,7 @@ $(document).on('click', '#addProject', event => {
         project_name: projectName
     };
     serviceConnect(payload, "add-project");
+    fetchProjects();
 });
 
 $('#nameChange').on('click', event => {
@@ -94,6 +95,7 @@ $('#nameChange').on('click', event => {
         new_name: $('#projectNameInput').val()
     };
     serviceConnect(payload, "changeProjectName");
+    fetchProjects();
 });
 
 $('#addUser').on('click', event => {
@@ -103,6 +105,7 @@ $('#addUser').on('click', event => {
         user_id: $('#userIDInput').val()
     };
     serviceConnect(payload, "addProjectUser");
+    fetchProjects();
 });
 
 $('#closeOverlay').on('click', event => {

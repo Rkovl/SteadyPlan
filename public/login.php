@@ -1,7 +1,6 @@
 <?php
+session_start();
 require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
-?>
-<?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/repos/userRepo.php';
 
 $error = "";
@@ -9,6 +8,7 @@ $error = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $remember_me = isset($_POST['remember_me']);
 
     $userRepo = new UserRepo();
     $user = $userRepo->getUserByUsername($username);
@@ -17,6 +17,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
+
+            if ($remember_me) {
+                $token = bin2hex(random_bytes(32));
+
+                // Need to store token in database. Will do after Jon makes the tables/methods
+
+                setcookie('remember_me',
+                        $token,
+                        [
+                                'expires' => time() + (86400 * 30),
+                                'path' => '/',
+                                'httponly' => true
+                        ]
+                );
+            }
             header('Location: dashboard.php');
             exit();
         }
@@ -60,6 +75,10 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
                 <div class="invalid-feedback">
                     Please enter your password.
                 </div>
+            </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="remember_me" name="remember_me">
+                <label class="form-check-label" for="remember_me">Remember Me</label>
             </div>
             <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>

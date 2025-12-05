@@ -12,10 +12,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'] ?? null;
     $user = new User($username, $email, $password);
 
-    if (!$username || !$email || !$password) {
+    if (!$email || !$username || !$password) {
         $error = "All fields are required";
-    } elseif (strlen($password) < 6) {
-        $error = "Password must be at least 6 characters long";
+    } elseif (strlen($password) < 8) {
+        $error = "Password must be at least 8 characters long";
     } else {
         $userId = UserRepo::register($user);
 
@@ -70,7 +70,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
                 <input type="password" class="form-control" id="password" name="password"
-                       placeholder="Enter password" required minlength="6">
+                       placeholder="Enter password" required minlength="8">
                 <div class="invalid-feedback" id="passwordFeedback">
                     Please enter a password.
                 </div>

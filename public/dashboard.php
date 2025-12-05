@@ -1,5 +1,10 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
+
+if (!isLoggedIn()) {
+    header('Location: login.php');
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" class="h-100">

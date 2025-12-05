@@ -5,6 +5,9 @@ if (!isLoggedIn()) {
     header('Location: login.php');
     exit();
 }
+
+echo json_encode(['user' => $_SESSION['user_id'] ?? null]);
+
 ?>
 <!DOCTYPE html>
 <html lang="en" class="h-100">

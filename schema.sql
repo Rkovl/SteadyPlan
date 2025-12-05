@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS USERS (
   password TEXT NOT NULL,
   email TEXT UNIQUE,
   timestamp TIMESTAMPTZ DEFAULT NOW(),
+  is_admin BOOLEAN DEFAULT false
   CONSTRAINT chk_user_or_email CHECK(email IS NOT NULL OR username IS NOT NULL)
 );
 

@@ -1,6 +1,6 @@
 const userID = document.body.dataset.userId;
 
-function tableRowOutline(project_id, project_name, owner, numUsers, numCols, numTasks) {
+function tableRowOutline(project_id, project_name, owner, numCols, numTasks, numUsers) {
     return `<tr id="${project_id}">
         <td>${project_name}</td>
         <td>
@@ -25,14 +25,19 @@ function populateProjectsTable(projects) {
     tbody.innerHTML = ''; // Clear existing rows
     tbody.innerHTML += projects.map(project =>
         tableRowOutline(
-            project.project_id,
-            project.project_name,
-            project.owner,
-            project.numcols,
-            project.numusers,
-            project.numtasks
+            project.PROJECT_ID,
+            project.PROJECT_NAME,
+            project.OWNER,
+            project.NUMCOLS,
+            project.NUMTASKS,
+            project.NUMUSERS
         )
     ).join('');
+}
+function testProjects(data) {
+    data.projects.forEach((item) => {
+        console.log(item);
+    });
 }
 
 async function fetchProjects() {
@@ -45,7 +50,7 @@ async function fetchProjects() {
         const data = await response.json();
 
         if (response.ok) {
-            //console.log(data.projects);
+            // testProjects(data)
             populateProjectsTable(data.projects);
             console.log('Projects fetched successfully');
         } else {
@@ -78,43 +83,55 @@ $(document).on('click', '.deleteButton', event => {
     serviceConnect(payload, "deleteProject");
 });
 
-$(document).on('click', '#addProject', event => {
-    const projectName = $('#addProjectInput').text().trim();
+$(document).on('click', '#addProject', async event => {
+    const projectName = $('#addProjectInput').val().trim();
     if (!projectName) return alert("Please enter a project name");
     const payload = {
         project_owner: userID,
         project_name: projectName
     };
-    serviceConnect(payload, "add-project");
-    fetchProjects();
+    try {
+        await serviceConnect(payload, "add-project");
+        fetchProjects();
+    } catch (e) {
+        console.error("add project failed")
+    }
 });
 
-$('#nameChange').on('click', event => {
+$('#nameChange').on('click', async event => {
     let projectID = $(event.currentTarget).closest('tr').prop("id");
     const payload = {
         project_id: projectID,
-        new_name: $('#projectNameInput').text().trim()
+        new_name: $('#projectNameInput').val().trim()
     };
-    serviceConnect(payload, "changeProjectName");
-    fetchProjects();
+    try {
+        await serviceConnect(payload, "changeProjectName");
+        fetchProjects();
+    } catch (e) {
+        console.error("change project name failed")
+    }
 });
 
-$('#addUser').on('click', event => {
+$('#addUser').on('click', async event => {
     let projectID = $(event.currentTarget).closest('tr').prop("id");
     const payload = {
         project_id: projectID,
-        user_id: $('#userIDInput').text()
+        user_id: $('#userIDInput').val()
     };
-    serviceConnect(payload, "addProjectUser");
-    fetchProjects();
+    try {
+        await serviceConnect(payload, "addProjectUser");
+        fetchProjects();
+    } catch (e) {
+        console.error("failed to add project user")
+    }
 });
 
 $('#closeOverlay').on('click', event => {
     $('.overlay').css('display', 'none');
 });
 
-function serviceConnect(payload, endpoint) {
-    fetch(`/api/${endpoint}.php`, {
+async function serviceConnect(payload, endpoint) {
+    return fetch(`/api/${endpoint}.php`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)

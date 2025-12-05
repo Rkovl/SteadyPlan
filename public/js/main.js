@@ -17,7 +17,7 @@ $(document).ready(function() {
 
 function logOut() {
     // call logout api in backend
-    fetch('/SteadyPlan/controllers/UserController.php', {
+    fetch('/SteadyPlan/public/logout.php', {
         method: 'POST',
         credentials: 'include'
     })
@@ -25,7 +25,7 @@ function logOut() {
     .then(data => {
         if (data.success) {
             // redirect to homepage after logout
-            window.location.href = "/SteadyPlan/index.php";
+            window.location.href = "/SteadyPlan/public/index.php";
         } else {
             alert('Logout failed: ' + data.message);
         }

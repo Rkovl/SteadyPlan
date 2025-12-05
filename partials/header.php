@@ -1,6 +1,6 @@
 <?php
-    $isLoggedIn = isLoggedIn();
-    //$isLoggedIn = true; //for testing purposes
+$isLoggedIn = isLoggedIn();
+//$isLoggedIn = true; //for testing purposes
 ?>
 <header class="bg-body-secondary border-bottom shadow-sm">
     <nav class="navbar navbar-expand-sm">
@@ -34,7 +34,8 @@
                     </li>
                     <?php if ($isLoggedIn): ?>
                         <li>
-                            <button type="button" class="btn btn-outline-secondary px-4" id="dashboardBtn">Dashboard</button>
+                            <button type="button" class="btn btn-outline-secondary px-4" id="dashboardBtn">Dashboard
+                            </button>
                         </li>
                         <li>
                             <button type="button" class="btn btn-primary px-4" id="logoutBtn">Logout</button>

@@ -17,6 +17,14 @@ class ProjectRepo extends BaseRepo {
         return $row['id'];
     }
 
+    public static function getProjectsByUserId($userID) {
+        $query = "SELECT * FROM projects WHERE owner = :userID";
+        $stmt = BaseRepo::getDB()->prepare($query);
+        $stmt->bindParam(':userID', $userID);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function deleteProject($owner, $id) {
         $query = "DELETE FROM projects WHERE owner = :owner AND id = :id";
         $stmt = BaseRepo::getDB()->prepare($query);

@@ -117,7 +117,7 @@ $('#nameChangeBtn').on('click', async event => {
     const rawValue = $('#nameChange').val()
     const safeValue = rawValue ? rawValue.trim() : ""
     if(!safeValue) {
-        alert("fuck you")
+        alert("bad value")
         return;
     }
 
@@ -156,7 +156,7 @@ $('#closeOverlay').on('click', event => {
 });
 
 async function serviceConnect(payload, endpoint) {
-    return fetch(`/api/${endpoint}.php`, {
+    return fetch(`/SteadyPlan/api/${endpoint}.php`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)

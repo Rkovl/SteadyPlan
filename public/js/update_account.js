@@ -135,7 +135,7 @@ $('#newPasswordForm').on('submit', async (e) => {
         const data = await response.json();
 
         if (response.ok) {
-            updateAlert($errorAlert, 'Password reset successfully.', true);
+            updateAlert($passwordFeedback, 'Password reset successfully.', true);
         } else {
             // Server-side error
             updateAlert($passwordFeedback, data.error || 'Password reset failed', false);

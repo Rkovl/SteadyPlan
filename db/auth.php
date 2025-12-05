@@ -21,4 +21,14 @@ function isLoggedIn() {
     }
     return false;
 }
+
+function isAdmin() {
+    if (!isLoggedIn()) {
+        return false;
+    }
+
+    require_once($_SERVER['DOCUMENT_ROOT'] . '/repos/UserRepo.php');
+    $user = UserRepo::getUserById($_SESSION['user_id']);
+    return $user && $user['is_admin'] == 1;
+}
 ?>

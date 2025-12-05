@@ -3,7 +3,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/repos/ProjectRepo.php';
 
 header('Content-Type: application/json');
-
+if(session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 if (!isLoggedIn()) {
     http_response_code(401);
     echo json_encode(['error' => 'Unauthorized']);
@@ -16,6 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "GET") {
     exit();
 }
 
+error_log('Fetching projects for user ID: ' . $_SESSION['user_id']);
 try {
     $projects = ProjectRepo::getProjectsInformationByUserId($_SESSION['user_id']);
     http_response_code(200);

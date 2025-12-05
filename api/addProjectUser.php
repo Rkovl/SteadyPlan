@@ -9,7 +9,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/repos/ProjectUserRepo.php');
 try {
     $data = json_decode(file_get_contents("php://input"), true);
 
-    if (!isset($data["project_owner"]) && !isset($data["project_name"])) {
+    if (!isset($data["project_id"]) && !isset($data["user_id"])) {
         http_response_code(400);
         echo json_encode(['error' => 'Project owner and name are required']);
     }

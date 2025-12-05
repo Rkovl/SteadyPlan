@@ -6,10 +6,10 @@
   display: none;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 }
 
 .overlayDisplay{
-  background: white;
   padding: 20px;
   padding-top: 35px;
   border-radius: 8px;
@@ -17,6 +17,7 @@
   max-height: 60vh;
   overflow-y: scroll;
   position: relative;
+  z-index: 101;
 }
 
 #closeOverlay {

@@ -29,27 +29,26 @@ class ProjectRepo extends BaseRepo {
         $query = "SELECT is_admin FROM users WHERE id = :userID";
         $stmt = BaseRepo::getDB()->prepare($query);
         $stmt->bindParam(':userID', $userID);
-        $result = $stmt->execute()['is_admin'];
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if($result) {
+        if ($row && $row['is_admin']) {
             $query2 = "
             SELECT
-            p.id AS project_id,
-            p.name AS project_name,
-            u.username AS owner_username,
-        
-            (SELECT COUNT(pu.user_id) FROM projects_users pu WHERE pu.project_id = p.id) AS num_members,
-            (SELECT COUNT(c.id) FROM columns c WHERE c.project_id = p.id) AS num_columns,
-            (SELECT COUNT(t.id) FROM tasks t WHERE t.project_id = p.id) AS num_tasks
-            FROM
-                projects p
-            JOIN
-                users u ON p.owner = u.id
-            ";
-            $stmt = BaseRepo::getDB()->prepare($query2);
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+                p.id AS project_id,
+                p.name AS project_name,
+                u.username AS owner_username,
+                (SELECT COUNT(pu.user_id) FROM projects_users pu WHERE pu.project_id = p.id) AS num_members,
+                (SELECT COUNT(c.id) FROM columns c WHERE c.project_id = p.id) AS num_columns,
+                (SELECT COUNT(t.id) FROM tasks t WHERE t.project_id = p.id) AS num_tasks
+            FROM projects p
+            JOIN users u ON p.owner = u.id
+        ";
+            $stmt2 = BaseRepo::getDB()->prepare($query2);
+            $stmt2->execute();
+            return $stmt2->fetchAll(PDO::FETCH_ASSOC);
         }
+
         return null;
     }
 
@@ -57,13 +56,14 @@ class ProjectRepo extends BaseRepo {
         $query = "
         SELECT
             p.id as PROJECT_ID,
-            p.owner AS OWNER,
-            p.name AS NAME,
+            p.name as PROJECT_NAME,
+            u.username AS OWNER,
             (SELECT COUNT(c.id) FROM columns c WHERE c.project_id = p.id) AS NUMCOLS,
             (SELECT COUNT(t.id) FROM tasks t WHERE t.project_id = p.id) AS NUMTASKS,
             (SELECT COUNT(pu2.user_id) FROM projects_users pu2 WHERE pu2.project_id = p.id) AS NUMUSERS
         FROM projects_users pu
         JOIN projects p ON p.id = pu.project_id
+        JOIN users u on u.id = p.owner
         WHERE pu.user_id = :userID
         ";
         $stmt = BaseRepo::getDB()->prepare($query);

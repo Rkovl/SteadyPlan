@@ -10,106 +10,100 @@ if (!isLoggedIn()) {
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/partials/defaultHead.php'; ?>
+    <?php
+    include $_SERVER['DOCUMENT_ROOT'] . '/partials/defaultHead.php';
+    ?>
     <title>Account Settings</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php'; ?>
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
+?>
 <div class="container py-5" style="max-width: 700px">
     <h2>Account Settings</h2>
     <hr style="height: 5px; background-color: black; border: none;">
 
-    <form method="POST" class="mb-5 border p-3 needs-validation" novalidate>
+    <form class="mb-5 border p-3 bg-light-subtle rounded needs-validation" id="updateAccountForm" novalidate>
         <h4>Update Account Info</h4>
 
+        <div id="updateAccountFeedback" class="alert alert-danger d-none"></div>
         <div class="mb-3">
-            <label class="form-label">Username</label>
-            <input type="text" name="username" class="form-control" placeholder="Enter username" required>
+            <label class="form-label" for="updateUsername">Username</label>
+            <input type="text" id="updateUsername" class="form-control" placeholder="Enter username" required>
             <div class="invalid-feedback">
                 Please enter a username.
             </div>
         </div>
         <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input type="email" name="email" class="form-control" placeholder="Enter email" required>
+            <label class="form-label" for="updateEmail">Email</label>
+            <input type="email" id="updateEmail" class="form-control" placeholder="Enter email" required>
             <div class="invalid-feedback">
                 Please enter a valid email.
             </div>
         </div>
         <div class="mb-3">
-            <label class="form-label">Current Password (required to verify)</label>
-            <input type="password" name="current_password" class="form-control" placeholder="Enter password" required>
+            <label class="form-label" for="updatePassword">Current Password (required to verify)</label>
+            <input type="password" id="updatePassword" class="form-control" placeholder="Enter password" required>
             <div class="invalid-feedback">
                 Please enter your current password.
             </div>
         </div>
-        <button type="submit" name="update" class="btn btn-primary">Update Info</button>
+        <button type="submit" class="btn btn-primary">Update Info</button>
     </form>
 
-    <form method="POST" class="mb-5 border p-3 needs-validation" novalidate>
+    <form class="mb-5 border p-3 bg-light-subtle rounded needs-validation" id="newPasswordForm" novalidate>
         <h4>Change Password</h4>
 
+        <div id="newPasswordFeedback" class="alert alert-danger d-none"></div>
         <div class="mb-3">
-            <label class="form-label">Current Password</label>
-            <input type="password" name="current_password_change" class="form-control"
+            <label class="form-label" for="currentPasswordChange">Current Password</label>
+            <input type="password" id="currentPasswordChange" class="form-control"
                    placeholder="Enter current password" required>
             <div class="invalid-feedback">
                 Please enter your current password.
             </div>
         </div>
         <div class="mb-3">
-            <label class="form-label">New Password</label>
-            <input type="password" name="new_password" class="form-control" placeholder="Enter new password" required>
+            <label class="form-label" for="newPasswordChange">New Password</label>
+            <input type="password" id="newPasswordChange" class="form-control" placeholder="Enter new password" required>
             <div class="invalid-feedback">
                 Please enter a new password.
             </div>
         </div>
         <div class="mb-3">
-            <label class="form-label">Confirm New Password</label>
-            <input type="password" name="confirm_password" class="form-control" placeholder="Re-enter new password"
+            <label class="form-label" for="confirmPasswordChange">Confirm New Password</label>
+            <input type="password" id="confirmPasswordChange" class="form-control" placeholder="Re-enter new password"
                    required>
             <div class="invalid-feedback">
                 Password confirmation does not match.
             </div>
         </div>
-        <button type="submit" name="change_password" class="btn btn-primary">Change Password</button>
+        <button type="submit" class="btn btn-primary">Change Password</button>
     </form>
 
-    <form method="POST" class="border p-3 needs-validation" novalidate>
+    <form class="border p-3 bg-light-subtle rounded needs-validation" id="deleteAccountForm" novalidate>
         <h4 class="text-danger">Delete Account</h4>
-        <p>This action is permanent. Enter your password to confirm.</p>
+        <div id="deleteUserFeedback" class="alert alert-danger d-none"></div>
+        <label class="form-label" for="deletePassword">This action is permanent. Enter your password to confirm.</label>
         <div class="mb-3">
-            <input type="password" name="delete_password" class="form-control" placeholder="Enter password" required>
+            <input type="password" class="form-control" id="deletePassword" placeholder="Enter password" required>
             <div class="invalid-feedback">
                 Please enter your password to delete your account.
             </div>
         </div>
-        <button type="submit" name="delete" class="btn btn-danger">Delete Account</button>
+        <label class="form-label" for="confirmText">Please type <strong>DELETE</strong> to confirm:</label>
+        <div class="mb-3">
+            <input type="text" class="form-control" id="confirmDeleteText" placeholder="Type DELETE to confirm" required>
+            <div class="invalid-feedback">
+                You must type DELETE to confirm account deletion.
+            </div>
+        </div>
+        <button type="submit" class="btn btn-danger">Delete Account</button>
     </form>
 </div>
-
-<script>
-    (() => {
-        'use strict'
-        const forms = document.querySelectorAll('.needs-validation')
-        Array.from(forms).forEach(form => {
-            form.addEventListener('submit', event => {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-                form.classList.add('was-validated')
-            }, false)
-        })
-    })()
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="/public/js/main.js"></script>
-<script src="/public/js/themes.js"></script>
-<script src="/public/js/logout.js"></script>
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . '/partials/footer.php';
+?>
+<script src="/public/js/update_account.js"></script>
 </body>
 </html>

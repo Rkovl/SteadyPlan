@@ -37,7 +37,7 @@ $('#registerForm').on('submit', async e => {
         const data = await response.json();
 
         if (response.ok) {
-            window.location.href = '/public/login.php';
+            window.location.href = '/SteadyPlan/public/login.php';
         } else {
             errorAlert.text(data.error || 'Registration failed');
             errorAlert.removeClass('d-none');

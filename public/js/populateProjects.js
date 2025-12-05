@@ -67,7 +67,7 @@ $(document).ready(() => {
 // Handle buttons
 $(document).on('click', '.openButton', event => {
     const projectName = $(event.currentTarget).closest('tr').find('td:first').text();
-    window.location.href = `../project-board.php?project=${encodeURIComponent(projectName)}`;
+    window.location.href = `./project-board.php?project=${encodeURIComponent(projectName)}`;
 });
 
 $(document).on('click', '.editButton', event => {

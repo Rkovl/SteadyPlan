@@ -44,7 +44,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
                         keep teams organized and aligned. Create projects, track tasks, assign responsibilities, and
                         visualize progress through an intuitive Kanban workflow. Built to support clear communication,
                         structured teamwork, and consistent project delivery.</p>
-                    <button class="btn btn-primary d-inline-flex align-items-center" type="button">Sign-up Today →
+                    <button class="btn btn-primary d-inline-flex align-items-center" type="button" onclick="window.location.href='register.php'">Sign-up Today →
                     </button>
                 </div>
                 <div class="col-12 col-lg-1 p-5"></div>

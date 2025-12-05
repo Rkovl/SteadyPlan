@@ -1,12 +1,12 @@
 const userID = document.body.dataset.userId;
 
-function tableRowOutline(project_id, projectName, ownerName, numUsers, numCols, numTasks) {
+function tableRowOutline(project_id, project_name, owner, numUsers, numCols, numTasks) {
     return `<tr id="${project_id}">
-        <td>${projectName}</td>
+        <td>${project_name}</td>
         <td>
             <div class="d-flex align-items-center justify-content-center">
-                <div class="user-avatar ps-2 pe-2 pt-1 pb-1 me-2 rounded-5" style="background: linear-gradient(135deg, #667eea 0%, #a1c5e6ff 100%);">${ownerName ? ownerName[0] : '?'}</div>
-                ${ownerName || 'Unknown'}
+                <div class="user-avatar ps-2 pe-2 pt-1 pb-1 me-2 rounded-5" style="background: linear-gradient(135deg, #667eea 0%, #a1c5e6ff 100%);">${owner ? owner[0] : '?'}</div>
+                ${owner || 'Unknown'}
             </div>
         </td>
         <td>${numUsers}</td>
@@ -27,10 +27,10 @@ function populateProjectsTable(projects) {
         tableRowOutline(
             project.project_id,
             project.project_name,
-            project.owner_username,
-            project.num_users,
-            project.num_cols,
-            project.num_tasks
+            project.owner,
+            project.numcols,
+            project.numusers,
+            project.numtasks
         )
     ).join('');
 }

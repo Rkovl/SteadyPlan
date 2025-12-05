@@ -1,11 +1,3 @@
-fetch('/projects.php')
-.then(res => res.json())
-.then(data => 
-    console.log(data.projects)
-
-    
-);
-
 function tableRowOutline(projectName, ownerName, numUsers, numCols, numTasks) {
     return`<tr>
             <td>${projectName}</td>
@@ -27,7 +19,7 @@ function tableRowOutline(projectName, ownerName, numUsers, numCols, numTasks) {
 }
 
 function populateProjectsTable(projects) {
-    document.getElementById('projectsTableBody').innerHTML += projects.map(project => 
+    document.getElementById('projectTableBody').innerHTML += projects.map(project =>
         tableRowOutline(
             project.NAME,
             project.OWNER,
@@ -37,6 +29,31 @@ function populateProjectsTable(projects) {
         )
     ).join('');
 }
+
+async function fetchProjects() {
+    try {
+        const response = await fetch('/SteadyPlan/api/user-projects.php', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            console.log (data.projects);
+            populateProjectsTable(data.projects);
+            console.log ('Projects fetched successfully');
+        } else {
+            console.error(data.error || 'Failed to fetch projects');
+        }
+    } catch (error) {
+        console.error('An error occurred while fetching projects:', error);
+    }
+}
+
+$(document).ready(() => {
+    fetchProjects();
+});
 
 $(document).on('click', '.openButton', event => {
     let projectName = $(event.currentTarget).closest('tr').find('td:first').text();

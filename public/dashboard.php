@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/api/user-projects.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
 ?>
 <!DOCTYPE html>
 <html lang="en" class="h-100">
@@ -14,8 +14,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/api/user-projects.php';
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
 ?>
-
-
 
 <main class="card text-center m-5 shadow">
     <div class="card-header">
@@ -85,6 +83,6 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/partials/footer.php';
 ?>
-<script defer src="../js/populateProjects.js"></script>
+<script defer src="/public/js/populateProjects.js"></script>
 </body>
 </html>

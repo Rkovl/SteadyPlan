@@ -71,20 +71,6 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/partials/footer.php';
 ?>
 
-<script>
-    (() => {
-        'use strict'
-        const forms = document.querySelectorAll('.needs-validation')
-        Array.from(forms).forEach(form => {
-            form.addEventListener('submit', event => {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-                form.classList.add('was-validated')
-            }, false)
-        })
-    })()
-</script>
+<script src="/public/js/validate-input.js"></script>
 </body>
 </html>

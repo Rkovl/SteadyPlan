@@ -85,30 +85,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/partials/footer.php';
 ?>
-
-<script>
-    (() => {
-        'use strict'
-        const forms = document.querySelectorAll('.needs-validation')
-        Array.from(forms).forEach(form => {
-            form.addEventListener('submit', event => {
-                const passwordInput = form.querySelector('#password');
-                const feedback = form.querySelector('#passwordFeedback');
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-
-                if (passwordInput.value.length === 0) {
-                    feedback.textContent = "Please enter a password."
-                } else if (passwordInput.value.length < 6) {
-                    feedback.textContent = "Password must be at least 6 characters."
-                }
-
-                form.classList.add('was-validated')
-            }, false)
-        })
-    })()
-</script>
+<script src="/public/js/validate-input.js"></script>
+<script src="/public/js/validate-register.js"></script>
 </body>
 </html>

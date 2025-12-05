@@ -18,9 +18,15 @@ if ($_SERVER["REQUEST_METHOD"] !== "GET") {
     exit();
 }
 
-error_log('Fetching projects for user ID: ' . $_SESSION['user_id']);
+
 try {
-    $projects = ProjectRepo::getProjectsInformationByUserId($_SESSION['user_id']);
+    $userID = $_SESSION['user_id'];
+    if (isAdmin()) {
+        $projects = ProjectRepo::getAllProjects($userID);
+    } else {
+        $projects = ProjectRepo::getProjectsInformationByUserId($userID);
+    }
+
     http_response_code(200);
     echo json_encode(['projects' => $projects]);
 } catch (Exception $e) {

@@ -37,7 +37,7 @@ class ProjectRepo extends BaseRepo {
             SELECT
                 p.id AS project_id,
                 p.name AS project_name,
-                u.username AS owner_username,
+                u.username AS owner,
                 (SELECT COUNT(pu.user_id) FROM projects_users pu WHERE pu.project_id = p.id) AS num_members,
                 (SELECT COUNT(c.id) FROM columns c WHERE c.project_id = p.id) AS num_columns,
                 (SELECT COUNT(t.id) FROM tasks t WHERE t.project_id = p.id) AS num_tasks
@@ -58,9 +58,9 @@ class ProjectRepo extends BaseRepo {
             p.id as project_id,
             p.name as project_name,
             u.username AS owner,
-            (SELECT COUNT(c.id) FROM columns c WHERE c.project_id = p.id) AS numcols,
-            (SELECT COUNT(t.id) FROM tasks t WHERE t.project_id = p.id) AS numtasks,
-            (SELECT COUNT(pu2.user_id) FROM projects_users pu2 WHERE pu2.project_id = p.id) AS numusers
+            (SELECT COUNT(pu.user_id) FROM projects_users pu WHERE pu.project_id = p.id) AS num_members,
+            (SELECT COUNT(c.id) FROM columns c WHERE c.project_id = p.id) AS num_columns,
+            (SELECT COUNT(t.id) FROM tasks t WHERE t.project_id = p.id) AS num_tasks
         FROM projects p
         JOIN users u on u.id = p.owner
         LEFT JOIN projects_users pu on p.id = pu.project_id and pu.user_id = :userID

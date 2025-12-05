@@ -31,43 +31,62 @@ function handleDrop(column) {
             const col_task_container = task_container[0];
             col_task_container.appendChild(draggedTask);
             // Update task's column in the database
-            const formData = new FormData();
-            formData.append('action', 'moveTask');
-            formData.append('taskID', draggedTask.id);
-            formData.append('newColumnID', col_task_container.id);
-            console.log ('Moving task', draggedTask.id, 'to column', col_task_container.id);
+            const data = {
+                taskID: draggedTask.id,
+                newColumnID: col_task_container.id
+            };
+            console.log('Moving task', draggedTask.id, 'to column', col_task_container.id);
 
-            fetch('/controllers/column-task.php', {
+            fetch('/api/move-task.php', {
                 method: 'POST',
-                body: formData
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
             })
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
+                    return response.json();
                 })
-                .catch(error => console.error('Error:', error));
+                .then(result => console.log('Task moved successfully:', result))
+                .catch(error => console.error('Error moving task:', error));
         } else {
             column.appendChild(draggedTask);
         }
     }
 }
 
-function addTask(text, columnID) {
-    const formData = new FormData();
-    formData.append('action', 'addTask');
-    formData.append('text', text);
-    formData.append('columnID', columnID);
+function addTask(text, columnID, projectID) {
+    const data = {
+        text: text,
+        columnID: columnID,
+        projectID: projectID
+    };
 
-    fetch('/controllers/column-task.php', {
+    fetch('/api/add-task.php', {
         method: 'POST',
-        body: formData
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
     })
-    .then(response => response.text())
-    .then(html => {
-        // The PHP echoes the new task HTML, insert it into the appropriate column
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(result => {
+        // Create the new task element
         const column = document.getElementById(columnID);
-        column.insertAdjacentHTML('beforeend', html);
+        const taskHTML = `
+                <div class='task' draggable='true' id='${result.taskID}'>
+                    <span>${text}</span>
+                    <i class='delete-task bi bi-trash3 fs-6 ms-auto'></i>
+                </div>`;
+        column.insertAdjacentHTML('beforeend', taskHTML);
 
         // Add drag events to the newly created task
         const newTask = column.lastElementChild;
@@ -83,20 +102,26 @@ function addTask(text, columnID) {
 }
 
 function deleteTask(taskElement) {
-    taskElement.remove();
+    const data = {
+        taskID: taskElement.id
+    };
 
-    const formData = new FormData();
-    formData.append('action', 'deleteTask');
-    formData.append('taskID', taskElement.id);
-
-    fetch('/controllers/column-task.php', {
+    fetch('/api/delete-task.php', {
         method: 'POST',
-        body: formData
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
     })
     .then(response => {
-        if (response.ok) {
-            taskElement.remove();
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
+        return response.json();
+    })
+    .then(result => {
+        taskElement.remove();
+        console.log('Task deleted successfully:', result);
     })
     .catch(error => console.error('Error:', error));
 }
@@ -169,3 +194,70 @@ Array.from(tasks).forEach(task => {
         deleteButton.addEventListener('click', deleteBtnClickHandler);
     }
 });
+
+// Add Task button event handlers
+let currentColumnID = null;
+const taskOverlay = document.getElementById('taskInputOverlay');
+const taskInput = document.getElementById('taskNameInput');
+const cancelBtn = document.getElementById('cancelTaskBtn');
+const createBtn = document.getElementById('createTaskBtn');
+
+// Function to show task input overlay
+function showTaskInputOverlay(columnID) {
+    currentColumnID = columnID;
+    taskInput.value = '';
+    taskOverlay.classList.add('active');
+    taskInput.focus();
+}
+
+// Function to hide task input overlay
+function hideTaskInputOverlay() {
+    taskOverlay.classList.remove('active');
+    currentColumnID = null;
+    taskInput.value = '';
+}
+
+// Function to create task from overlay
+function createTaskFromOverlay() {
+    const taskText = taskInput.value.trim();
+    if (taskText && currentColumnID) {
+        addTask(taskText, currentColumnID, PROJECT_ID);
+        hideTaskInputOverlay();
+    }
+}
+
+// Add click handlers for overlay buttons
+cancelBtn.addEventListener('click', hideTaskInputOverlay);
+createBtn.addEventListener('click', createTaskFromOverlay);
+
+// Allow Enter key to create task
+taskInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        createTaskFromOverlay();
+    }
+});
+
+// Allow Escape key to close overlay
+taskInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        hideTaskInputOverlay();
+    }
+});
+
+// Close overlay when clicking outside the modal
+taskOverlay.addEventListener('click', (e) => {
+    if (e.target === taskOverlay) {
+        hideTaskInputOverlay();
+    }
+});
+
+// Add event listeners to all "Add Task" buttons
+document.querySelectorAll('.add-task-btn').forEach(button => {
+    button.addEventListener('click', (e) => {
+        const column = e.target.closest('.column');
+        const taskContainer = column.querySelector('.task_container');
+        const columnID = taskContainer.id;
+        showTaskInputOverlay(columnID);
+    });
+});
+

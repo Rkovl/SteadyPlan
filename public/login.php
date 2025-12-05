@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // Need to store token in database. Will do after Jon makes the tables/methods
 
-                setcookie('remember_me',
+                setcookie('login_cookie',
                         $token,
                         [
                                 'expires' => time() + (86400 * 30),

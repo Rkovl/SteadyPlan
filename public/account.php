@@ -1,72 +1,9 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/repos/UserRepo.php';
 
 if (!isLoggedIn()) {
-    header('Location: login.php');
+    header("Location: login.php");
     exit();
-}
-
-$user_id = $_SESSION['user_id'];
-$error = "";
-$success = "";
-
-$user = UserRepo::getUserById($user_id);
-
-if (!$user) {
-    $error = "User not found";
-}
-
-if (isset($_POST['update'])) {
-    $current_password = $_POST['current_password'] ?? '';
-    $new_username = trim($_POST['username'] ?? '');
-    $new_email = trim($_POST['email'] ?? '');
-
-    if (!password_verify($current_password, $user['password'])) {
-        $error = "Incorrect current password";
-    } else {
-        if ($new_username && $new_username !== $user['username']) {
-            UserRepo::updateUsername($new_username, $user_id);
-            $_SESSION['username'] = $new_username;
-        }
-        if ($new_email && $new_email !== $user['email']) {
-            UserRepo::updateEmail($new_email, $user_id);
-        }
-
-        $success = "Your account has been updated";
-        $user = UserRepo::getUserById($user_id);
-    }
-}
-
-if (isset($_POST['change_password'])) {
-    $current_password = $_POST['current_password_change'] ?? '';
-    $new_password = $_POST['new_password'] ?? '';
-    $confirm_password = $_POST['confirm_password'] ?? '';
-
-    if (!password_verify($current_password, $user['password'])) {
-        $error = "Incorrect current password";
-    } elseif ($new_password !== $confirm_password) {
-        $error = "New password and confirmation do not match";
-    } else {
-        UserRepo::updatePassword($new_password, $user_id);
-        $success = "Password successfully changed";
-    }
-}
-
-if (isset($_POST['delete'])) {
-    $confirm = $_POST['confirm_delete'] ?? '';
-    $password = $_POST['delete_password'] ?? '';
-
-    if ($confirm !== 'DELETE') {
-        $error = "You must type DELETE to confirm account deletion.";
-    } elseif (!password_verify($password, $user['password'])) {
-        $error = "Password incorrect. Cannot delete account.";
-    } else {
-        UserRepo::deleteUser($user_id);
-        session_destroy();
-        header("Location: index.php");
-        exit();
-    }
 }
 ?>
 

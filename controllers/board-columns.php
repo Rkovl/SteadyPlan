@@ -2,7 +2,6 @@
 require_once ($_SERVER['DOCUMENT_ROOT'] . "/db/database.php");
 require_once ("column-task.php");
 require_once ($_SERVER['DOCUMENT_ROOT'] . "/repos/columnRepo.php");
-
 function addColumn($id, $title) {
     echo "   
         <div class='column'>
@@ -36,6 +35,10 @@ function getColumns($projectID) {
         initializeDefaultBoard();
     }
 }
+
+if (isset($_GET['project'])) {
+    $project = $_GET['project'];
+    }
 
 // load columns for test project
 getColumns('f31554b1-3a6e-44ad-b3a7-db9112878b8c');

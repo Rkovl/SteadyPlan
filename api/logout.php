@@ -11,6 +11,20 @@ try {
         session_unset();
         session_destroy();
     }
+
+    // Remove the login cookie by setting it to expire in the past
+    setcookie(
+        'login_cookie',
+        '',
+        [
+            'expires' => time() - 3600,
+            'path' => '/',
+            'httponly' => true,
+            'samesite' => 'Lax'
+        ]
+    );
+
+
     http_response_code(200);
     echo json_encode([
         'success' => true,

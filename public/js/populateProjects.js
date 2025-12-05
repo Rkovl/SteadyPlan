@@ -27,10 +27,10 @@ function populateProjectsTable(projects) {
         tableRowOutline(
             project.project_id,
             project.project_name,
-            project.owner,
-            project.numusers,
-            project.numcols,
-            project.numtasks
+            project.owner_username,
+            project.num_users,
+            project.num_cols,
+            project.num_tasks
         )
     ).join('');
 }
@@ -45,7 +45,7 @@ async function fetchProjects() {
         const data = await response.json();
 
         if (response.ok) {
-            //console.log(data.projects);
+            console.log(data.projects);
             populateProjectsTable(data.projects);
             console.log('Projects fetched successfully');
         } else {

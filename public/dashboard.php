@@ -7,13 +7,34 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
     <?php
     include $_SERVER['DOCUMENT_ROOT'] . '/partials/defaultHead.php';
     ?>
-    <link rel="stylesheet" href="/public/css/board-style.css">
+    <link rel="stylesheet" href="/public/css/dashboardStyle.css">
     <title>Project Board</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
 ?>
+
+<div class="overlay justify-content-center align-items-center">
+    <div class="card overlayDisplay">
+        <button id="closeOverlay">x</button>
+        <div class="card-body">
+            <h5 class="card-title fw-bold">Update Project Data</h5>
+            <div>
+                <div class="mb-3">
+                    <label for="nameChange" class="form-label">Project Name</label>
+                    <input type="text" class="form-control" id="nameChange">
+                </div>
+                <button type="button" class="btn btn-primary mb-5">Change Name</button>
+                <div class="mb-3">
+                    <label for="addUser" class="form-label">Add User</label>
+                    <input type="text" class="form-control" id="addUser">
+                </div>
+                <button type="button" class="btn btn-primary">Invite</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <main class="card text-center m-5 shadow">
     <div class="card-header">
@@ -49,7 +70,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
                     </tr>
                 </thead>
                 <tbody id="projectTableBody">
-                    <tr>
+                    <!-- <tr>
                         <td>Project Alpha</td>
                         <td>
                             <div class="d-flex align-items-center">
@@ -66,7 +87,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
                             <button class="btn btn-sm btn-outline-danger">Delete</button>
                         </td>
                     </tr>
-                    <!-- More rows as needed -->
+                    More rows as needed -->
                 </tbody>
             </table>
         </div>

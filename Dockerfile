@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y libpq-dev \
 RUN a2enmod rewrite
 
 # Copy your PHP files to Apache's web directory
-COPY index.php /var/www/html/public/
+COPY public/index.php /var/www/html/
 
 # Set proper permissions
 RUN chown -R www-data:www-data /var/www/html

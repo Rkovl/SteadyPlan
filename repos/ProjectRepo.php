@@ -25,9 +25,38 @@ class ProjectRepo extends BaseRepo {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getAllProjects($userID) {
+        $query = "SELECT is_admin FROM users WHERE id = :userID";
+        $stmt = BaseRepo::getDB()->prepare($query);
+        $stmt->bindParam(':userID', $userID);
+        $result = $stmt->execute()['is_admin'];
+
+        if($result) {
+            $query2 = "
+            SELECT
+            p.id AS project_id,
+            p.name AS project_name,
+            u.username AS owner_username,
+        
+            (SELECT COUNT(pu.user_id) FROM projects_users pu WHERE pu.project_id = p.id) AS num_members,
+            (SELECT COUNT(c.id) FROM columns c WHERE c.project_id = p.id) AS num_columns,
+            (SELECT COUNT(t.id) FROM tasks t WHERE t.project_id = p.id) AS num_tasks
+            FROM
+                projects p
+            JOIN
+                users u ON p.owner = u.id
+            ";
+            $stmt = BaseRepo::getDB()->prepare($query2);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return null;
+    }
+
     public static function getProjectsInformationByUserId($userID) {
         $query = "
         SELECT
+            p.id as PROJECT_ID,
             p.owner AS OWNER,
             p.name AS NAME,
             (SELECT COUNT(c.id) FROM columns c WHERE c.project_id = p.id) AS NUMCOLS,
@@ -43,10 +72,16 @@ class ProjectRepo extends BaseRepo {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function deleteProject($owner, $id) {
-        $query = "DELETE FROM projects WHERE owner = :owner AND id = :id";
+    public static function deleteProject($id) {
+        $query = "DELETE FROM projects_users WHERE project_id = :id";
         $stmt = BaseRepo::getDB()->prepare($query);
-        $stmt->bindParam(':owner', $owner);
+        $stmt->bindParam(':id', $id);
+        if (!$stmt->execute()) {
+            return null;
+        }
+
+        $query2 = "DELETE FROM projects WHERE id = :id";
+        $stmt = BaseRepo::getDB()->prepare($query2);
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
     }
@@ -56,6 +91,14 @@ class ProjectRepo extends BaseRepo {
         $stmt = BaseRepo::getDB()->prepare($query);
         $stmt->bindParam(':owner', $owner);
         $stmt->bindParam(':id', $id);
+        return $stmt->execute();
+    }
+
+    public static function changeProjectName($id, $name) {
+        $query = "UPDATE projects SET name = :name WHERE id = :id";
+        $stmt = BaseRepo::getDB()->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':name', $name);
         return $stmt->execute();
     }
 

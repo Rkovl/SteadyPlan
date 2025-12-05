@@ -2,8 +2,8 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/repos/UserRepo.php';
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+if (!isLoggedIn()) {
+    header('Location: login.php');
     exit();
 }
 
@@ -173,7 +173,6 @@ if (isset($_POST['delete'])) {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/public/js/main.js"></script>
 <script src="/public/js/themes.js"></script>
-<script src="/public/js/login.js"></script>
-<script src="/public/js/register.js"></script>
+<script src="/public/js/logout.js"></script>
 </body>
 </html>

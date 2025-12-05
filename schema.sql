@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS USERS (
   password TEXT NOT NULL,
   email TEXT UNIQUE,
   timestamp TIMESTAMPTZ DEFAULT NOW(),
+  is_admin BOOLEAN DEFAULT false,
   CONSTRAINT chk_user_or_email CHECK(email IS NOT NULL OR username IS NOT NULL)
 );
 
@@ -56,6 +57,7 @@ CREATE TABLE IF NOT EXISTS TASKS (
 
 DO $$
 DECLARE
+    a_user_id UUID;
     v_user_id UUID;
 
     v_project_id_a UUID;
@@ -69,8 +71,12 @@ DECLARE
 
 BEGIN
 
-    INSERT INTO USERS (username, password, email)
-    VALUES ('test_user', 'hashedpassword123', 'test.user@example.com')
+    INSERT INTO USERS (username, password, email, is_admin)
+    VALUES ('test_user', 'hashedpassword123', 'test.user@example.com', true)
+    RETURNING id INTO a_user_id;
+
+  INSERT INTO USERS (username, password, email, is_admin)
+    VALUES ('test2', 'hashedpassword1234', 'test.user@example.ca', false)
     RETURNING id INTO v_user_id;
     
     INSERT INTO PROJECTS (owner, name)

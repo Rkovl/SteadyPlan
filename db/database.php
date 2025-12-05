@@ -2,10 +2,10 @@
 class Database {
     private static $instance = null;
     private $connection;
+    private const DEFAULT_CONN_STRING = "";
 
     // Private constructor prevents direct instantiation
     private function __construct() {
-        $this->connect();
     }
 
     // Prevent cloning of the instance
@@ -17,27 +17,38 @@ class Database {
     }
 
     // Get the singleton instance
-    public static function getInstance() {
+    public static function getInstance($conn_string = self::DEFAULT_CONN_STRING) {
         if (self::$instance === null) {
             self::$instance = new self();
         }
+
+        if(self::$instance->connection === null) {
+            self::$instance->connect($conn_string);
+        }
+
         return self::$instance;
     }
 
-    private function connect() {
-        if(file_exists($_SERVER['DOCUMENT_ROOT'] . '/.env.local')){
-            $lines = file($_SERVER['DOCUMENT_ROOT'] . '/.env.local', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-            foreach ($lines as $line) {
-                putenv($line);
+    private function connect($conn_string) {
+        $database_url = "";
+
+        if($conn_string === self::DEFAULT_CONN_STRING) {
+            if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/.env.local')) {
+                $lines = file($_SERVER['DOCUMENT_ROOT'] . '/.env.local', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                foreach ($lines as $line) {
+                    putenv($line);
+                }
             }
-        }
 
-        $database_url = getenv('DATABASE_URL');
+            $database_url = getenv('DATABASE_URL');
 
-        if (!$database_url) {
-            error_log("DB Connection failed: DATABASE_URL environment variable is not set");
-            $this->connection = null;
-            return;
+            if (!$database_url) {
+                error_log("DB Connection failed: DATABASE_URL environment variable is not set");
+                $this->connection = null;
+                return;
+            }
+        } else {
+            $database_url = $conn_string;
         }
 
         try {

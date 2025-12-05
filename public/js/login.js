@@ -27,7 +27,7 @@ $('#loginForm').on('submit', async (e) => {
         const data = await response.json();
 
         if (response.ok) {
-            window.location.href = '/public/dashboard.php';
+            window.location.href = '/SteadyPlan/public/dashboard.php';
         } else {
             // Server-side error
             errorAlert.text(data.error || 'Login failed');

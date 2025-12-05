@@ -1,3 +1,13 @@
+let $_SESSION = {};
+
+fetch('/dashboard.php', { credentials: 'same-origin' })
+  .then(r => r.json())
+  .then(data => {
+    console.log(data.user);
+    $_SESSION = data.user || {};
+  });
+
+
 function tableRowOutline(project_id, projectName, ownerName, numUsers, numCols, numTasks) {
     return`<tr id="${project_id}">
             <td>${projectName}</td>
@@ -68,7 +78,7 @@ $(document).on('click', '.editButton', event => {
 $(document).on('click', '.deleteButton', event => {
     let projectID = $(event.currentTarget).closest('tr').prop("id")
     const payload = {
-        project_id: $_SESSION["user_id"],
+        project_id: $_SESSION,
         new_name: projectID
     };
 
@@ -76,9 +86,10 @@ $(document).on('click', '.deleteButton', event => {
 });
 
 $(document).on('click', '#addProject', event => {
+    
     let projectName = $('#addProjectInput').val();
     const payload = {
-        project_id: $_SESSION["user_id"],
+        project_id: $_SESSION,
         project_name: projectName
     };
 

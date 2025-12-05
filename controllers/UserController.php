@@ -3,6 +3,44 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/repos/userRepo.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/db/verifyUUID.php');
 
 class UserController {
+    public static function authenticateUser($username, $password, $remember_me) {
+        $user = UserRepo::getUserByUsername($username);
+
+        if(!$user || !password_verify($password, $user['password'])) {
+            return "Wrong username or password";
+        }
+
+        if(session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $username;
+
+        if($remember_me) {
+            $token = bin2hex(random_bytes(32));
+            $expiry_time = time() + (86400 * 30);
+            $token_added = TokensRepo::addToken($user['id'], $token,  $expiry_time);
+
+            if($token_added) {
+                setcookie(
+                    'login_cookie',
+                    $token,
+                    [
+                        'expires' => $expiry_time,
+                        'path' => '/',
+                        'httponly' => true,
+                        'samesite' => 'Lax'
+                    ]
+                );
+            } else {
+                error_log("Failed to store token for user" . $user['id']);
+            }
+        }
+
+        unset($user['password']);
+        return $user;
+    }
+
     public static function register() {
         try {
             if($_SERVER["REQUEST_METHOD"] !== "POST") {

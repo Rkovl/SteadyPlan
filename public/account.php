@@ -1,7 +1,6 @@
 <?php
-session_start();
 require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/repos/userRepo.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/repos/UserRepo.php';
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");

@@ -25,6 +25,6 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/partials/footer.php';
 ?>
-<script src="../js/tasks.js"></script>
+<script src="js/tasks.js"></script>
 </body>
 </html>

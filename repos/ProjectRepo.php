@@ -28,6 +28,7 @@ class ProjectRepo extends BaseRepo {
     public static function getProjectsInformationByUserId($userID) {
         $query = "
         SELECT
+            p.id as project_id,
             p.owner AS OWNER,
             p.name AS NAME,
             (SELECT COUNT(c.id) FROM columns c WHERE c.project_id = p.id) AS NUMCOLS,
@@ -43,10 +44,16 @@ class ProjectRepo extends BaseRepo {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function deleteProject($owner, $id) {
-        $query = "DELETE FROM projects WHERE owner = :owner AND id = :id";
+    public static function deleteProject($id) {
+        $query = "DELETE FROM projects_users WHERE project_id = :id";
         $stmt = BaseRepo::getDB()->prepare($query);
-        $stmt->bindParam(':owner', $owner);
+        $stmt->bindParam(':id', $id);
+        if (!$stmt->execute()) {
+            return null;
+        }
+
+        $query2 = "DELETE FROM projects WHERE id = :id";
+        $stmt = BaseRepo::getDB()->prepare($query2);
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
     }

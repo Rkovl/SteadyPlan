@@ -1,13 +1,13 @@
 <?php
-    $isLoggedIn = isLoggedIn();
-    //$isLoggedIn = true; //for testing purposes
+$isLoggedIn = isLoggedIn();
+//$isLoggedIn = true; //for testing purposes
 ?>
 <header class="bg-body-secondary border-bottom shadow-sm">
     <nav class="navbar navbar-expand-sm">
         <div class="container-fluid">
 
             <div class="d-flex align-items-center w-100">
-                <a href="/" class="navbar-brand d-flex align-items-center gap-2 fw-bold me-auto">
+                <a href="index.php" class="navbar-brand d-flex align-items-center gap-2 fw-bold me-auto">
                     <img src="/public/images/logo.svg" alt="Logo" width="48" height="48" class="logo-svg">
                     <span class="fs-3">Steady Plan</span>
                 </a>
@@ -33,8 +33,17 @@
                         </button>
                     </li>
                     <?php if ($isLoggedIn): ?>
+                        <li class="nav-item dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle px-4" data-bs-toggle="dropdown">
+                                Settings
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="account.php">User Account</a></li>
+                            </ul>
+                        </li>
                         <li>
-                            <button type="button" class="btn btn-outline-secondary px-4" id="dashboardBtn">Dashboard</button>
+                            <button type="button" class="btn btn-outline-secondary px-4" id="dashboardBtn">Dashboard
+                            </button>
                         </li>
                         <li>
                             <button type="button" class="btn btn-primary px-4" id="logoutBtn">Logout</button>

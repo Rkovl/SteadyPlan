@@ -45,6 +45,6 @@ if (isset($_GET['project'])) {
     $project = $_GET['project'];
 }
 
-// load columns for test project
+echo "<div class='columns-container'>";
 getColumns($project);
-
+echo "</div>";

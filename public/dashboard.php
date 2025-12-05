@@ -78,31 +78,13 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
                     </tr>
                 </thead>
                 <tbody id="projectTableBody">
-                    <!-- <tr>
-                        <td>Project Alpha</td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <div class="user-avatar ps-2 pe-2 pt-1 pb-1 me-2 rounded-5" style="background: linear-gradient(135deg, #667eea 0%, #a1c5e6ff 100%);">DL</div>
-                                Devon Lane
-                            </div>
-                        </td>
-                        <td>131</td>
-                        <td>12</td>
-                        <td>324</td>
-                        <td>
-                            <button class="btn btn-sm btn-outline-primary">Open</button>
-                            <button class="btn btn-sm btn-outline-secondary">Edit</button>
-                            <button class="btn btn-sm btn-outline-danger">Delete</button>
-                        </td>
-                    </tr>
-                    More rows as needed -->
                 </tbody>
             </table>
         </div>
     </div>
     <div class="card-footer text-body-secondary">
         <div class="text-muted small">
-                    <!-- Showing 1 to 6 of 6 entries -->
+            <!-- Showing 1 to 6 of 6 entries -->
         </div>
     </div>
 </main>
@@ -112,6 +94,6 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/partials/footer.php';
 ?>
-<script defer src="/public/js/populateProjects.js"></script>
+<script src="/public/js/projects.js"></script>
 </body>
 </html>

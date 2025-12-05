@@ -28,9 +28,9 @@ function populateProjectsTable(projects) {
             project.project_id,
             project.project_name,
             project.owner,
-            project.numcols,
-            project.numtasks,
-            project.numusers
+            project.num_columns,
+            project.num_tasks,
+            project.num_members
         )
     ).join('');
 }
@@ -51,7 +51,6 @@ async function fetchProjects() {
 
         if (response.ok) {
             populateProjectsTable(data.projects);
-            console.log('Projects fetched successfully');
         } else {
             console.error(data.error || 'Failed to fetch projects');
         }

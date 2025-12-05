@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/repos/UserRepo.php';
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
@@ -10,9 +11,7 @@ $user_id = $_SESSION['user_id'];
 $error = "";
 $success = "";
 
-$userRepo = new userRepo();
-
-$user = $userRepo->getUserById($user_id);
+$user = UserRepo::getUserById($user_id);
 
 if (!$user) {
     $error = "User not found";
@@ -27,15 +26,15 @@ if (isset($_POST['update'])) {
         $error = "Incorrect current password";
     } else {
         if ($new_username && $new_username !== $user['username']) {
-            $userRepo->updateUsername($new_username, $user_id);
+            UserRepo::updateUsername($new_username, $user_id);
             $_SESSION['username'] = $new_username;
         }
         if ($new_email && $new_email !== $user['email']) {
-            $userRepo->updateEmail($new_email, $user_id);
+            UserRepo::updateEmail($new_email, $user_id);
         }
 
         $success = "Your account has been updated";
-        $user = $userRepo->getUserById($user_id);
+        $user = UserRepo::getUserById($user_id);
     }
 }
 
@@ -49,7 +48,7 @@ if (isset($_POST['change_password'])) {
     } elseif ($new_password !== $confirm_password) {
         $error = "New password and confirmation do not match";
     } else {
-        $userRepo->updatePassword($new_password, $user_id);
+        UserRepo::updatePassword($new_password, $user_id);
         $success = "Password successfully changed";
     }
 }
@@ -63,7 +62,7 @@ if (isset($_POST['delete'])) {
     } elseif (!password_verify($password, $user['password'])) {
         $error = "Password incorrect. Cannot delete account.";
     } else {
-        $userRepo->deleteUser($user_id);
+        UserRepo::deleteUser($user_id);
         session_destroy();
         header("Location: goodbye.php");
         exit();

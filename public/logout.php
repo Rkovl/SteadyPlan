@@ -1,4 +1,5 @@
 <?php
+session_start();
 try {
     if ($_SERVER["REQUEST_METHOD"] !== "POST") {
         http_response_code(405);
@@ -10,13 +11,11 @@ try {
         session_unset();
         session_destroy();
     }
-
     http_response_code(200);
     echo json_encode([
         'success' => true,
         'message' => 'Log out successful',
     ]);
-//    header("Location: /index.php");
 } catch (Exception $e) {
     http_response_code(500);
     echo json_encode(['error' => 'Server error: ' . $e->getMessage()]);

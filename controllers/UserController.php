@@ -13,7 +13,7 @@ class UserController {
 
             $data = json_decode(file_get_contents("php://input"), true);
 
-            if ((!isset($data["email"]) && !isset($data["username"])) || !isset($data["password"])) {
+            if ((!isset($data["email"]) && !isset($data["username"])) && !isset($data["password"])) {
                 http_response_code(400);
                 echo json_encode(['error' => 'Email or username and password are required']);
                 return;

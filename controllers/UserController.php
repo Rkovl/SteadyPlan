@@ -3,6 +3,108 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/repos/userRepo.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/db/verifyUUID.php');
 
 class UserController {
+    public static function authenticateUser($username, $password, $remember_me) {
+        $user = UserRepo::getUserByUsername($username);
+
+        if(!$user || !password_verify($password, $user['password'])) {
+            return "Wrong username or password";
+        }
+
+        if(session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $username;
+
+        if($remember_me) {
+            $token = bin2hex(random_bytes(32));
+            $expiry_time = time() + (86400 * 30);
+            $token_added = TokensRepo::addToken($user['id'], $token,  $expiry_time);
+
+            if($token_added) {
+                setcookie(
+                    'login_cookie',
+                    $token,
+                    [
+                        'expires' => $expiry_time,
+                        'path' => '/',
+                        'httponly' => true,
+                        'samesite' => 'Lax'
+                    ]
+                );
+            } else {
+                error_log("Failed to store token for user" . $user['id']);
+            }
+        }
+
+        unset($user['password']);
+        return $user;
+    }
+
+    public static function register() {
+        try {
+            if($_SERVER["REQUEST_METHOD"] !== "POST") {
+                http_response_code(405);
+                echo json_encode(['error' => 'Method not POST']);
+                return;
+            }
+
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            if ((!isset($data["email"]) && !isset($data["username"])) && !isset($data["password"])) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Email or username and password are required']);
+                return;
+            }
+
+            if(isset($data["email"]) && !filter_var($data["email"], FILTER_VALIDATE_EMAIL)) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Invalid email']);
+                return;
+            }
+
+            if(strlen($data["password"]) < 8) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Password must be at least 8 characters']);
+                return;
+            }
+
+            if(isset($data["username"]) && UserRepo::getUserByUsername($data["username"])) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Username already taken']);
+                return;
+            }
+
+            if(isset($data["email"]) && UserRepo::getUserByEmail($data["email"])) {
+              http_response_code(400);
+              echo json_encode(['error' => 'Email already taken']);
+              return;
+            }
+
+            $username = htmlspecialchars(trim($data["username"]));
+            $email = isset($data["email"]) ? trim($data["email"]) : null;
+            $password = password_hash($data["password"], PASSWORD_DEFAULT);
+            $user = new User($username, $email, $password);
+
+            $userId = UserRepo::register($user);
+
+            if($userId) {
+                http_response_code(201);
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'User registered successfully',
+                    'userId' => $userId
+                ]);
+            } else {
+                http_response_code(400);
+                echo json_encode(['error' => 'Failed to create user']);
+            }
+
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error' => 'Server error: ' . $e->getMessage()]);
+        }
+    }
 
     public static function login() {
         try {

@@ -1,41 +1,24 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/repos/userRepo.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/repos/TokensRepo.php';
 
 $error = "";
+$username = $_POST['username'] ?? '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $password = $_POST['password'] ?? '';
     $remember_me = isset($_POST['remember_me']);
 
-    $userRepo = new UserRepo();
-    $user = $userRepo->getUserByUsername($username);
+    $result = UserController::authenticateUser($username, $password, $remember_me);
 
-    if ($user) {
-        if (password_verify($password, $user['password'])) {
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
-
-            if ($remember_me) {
-                $token = bin2hex(random_bytes(32));
-
-                // Need to store token in database. Will do after Jon makes the tables/methods
-
-                setcookie('remember_me',
-                        $token,
-                        [
-                                'expires' => time() + (86400 * 30),
-                                'path' => '/',
-                                'httponly' => true
-                        ]
-                );
-            }
-            header('Location: dashboard.php');
-            exit();
-        }
+    if(is_array($result)) {
+        header('Location: dashboard.php');
+        exit();
+    } else {
+        $error = $result;
     }
-    $error = "Wrong username or password";
+
 }
 ?>
 <!doctype html>

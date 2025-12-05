@@ -33,12 +33,12 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
                     <label for="nameChange" class="form-label">Project Name</label>
                     <input type="text" class="form-control" id="nameChange">
                 </div>
-                <button type="button" class="btn btn-primary mb-5">Change Name</button>
+                <button id="nameChangeBtn" type="button" class="btn btn-primary mb-5">Change Name</button>
                 <div class="mb-3">
                     <label for="addUser" class="form-label">Add User</label>
                     <input type="text" class="form-control" id="addUser">
                 </div>
-                <button type="button" class="btn btn-primary">Invite</button>
+                <button id="addUserBtn" type="button" class="btn btn-primary">Invite</button>
             </div>
         </div>
     </div>
@@ -49,13 +49,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
         <div class="d-flex justify-content-between align-items-center">
             <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="true" href="#">Active</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                <a class="nav-link active" aria-current="true" href="#">Page 1</a>
             </li>
             </ul>
             <div class="d-flex gap-2">

@@ -31,7 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     include $_SERVER['DOCUMENT_ROOT'] . '/partials/defaultHead.php';
     ?>
     <title>Login - Steady Plan</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="d-flex flex-column min-vh-100">
 <?php
@@ -72,21 +71,6 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/partials/footer.php';
 ?>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    (() => {
-        'use strict'
-        const forms = document.querySelectorAll('.needs-validation')
-        Array.from(forms).forEach(form => {
-            form.addEventListener('submit', event => {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-                form.classList.add('was-validated')
-            }, false)
-        })
-    })()
-</script>
+<script src="/public/js/validate-input.js"></script>
 </body>
 </html>

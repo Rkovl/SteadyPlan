@@ -37,7 +37,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     include $_SERVER['DOCUMENT_ROOT'] . '/partials/defaultHead.php';
     ?>
     <title>Register - Steady Plan</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="d-flex flex-column min-vh-100">
 <?php
@@ -86,31 +85,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/partials/footer.php';
 ?>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    (() => {
-        'use strict'
-        const forms = document.querySelectorAll('.needs-validation')
-        Array.from(forms).forEach(form => {
-            form.addEventListener('submit', event => {
-                const passwordInput = form.querySelector('#password');
-                const feedback = form.querySelector('#passwordFeedback');
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-
-                if (passwordInput.value.length === 0) {
-                    feedback.textContent = "Please enter a password."
-                } else if (passwordInput.value.length < 6) {
-                    feedback.textContent = "Password must be at least 6 characters."
-                }
-
-                form.classList.add('was-validated')
-            }, false)
-        })
-    })()
-</script>
+<script src="/public/js/validate-input.js"></script>
+<script src="/public/js/validate-register.js"></script>
 </body>
 </html>

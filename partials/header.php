@@ -14,8 +14,7 @@
 
                 <button id="themeToggleBtnMobile"
                         class="btn btn-light d-sm-none me-2 theme-button"
-                        aria-label="Toggle Theme"
-                        onclick="toggleTheme()">
+                        aria-label="Toggle Theme">
                     <i class="bi bi-sun"></i>
                 </button>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
@@ -26,27 +25,26 @@
 
             <div class="collapse navbar-collapse w-100 mt-2 mt-sm-0" id="mainNav">
                 <ul class="navbar-nav ms-auto flex-column flex-sm-row align-items-end gap-2">
-                    <li>
+                    <li class="d-none d-sm-inline-block">
                         <button id="themeToggleBtnDesktop"
                                 class="btn btn-light theme-button"
-                                aria-label="Toggle Theme"
-                                onclick="toggleTheme()">
+                                aria-label="Toggle Theme">
                             <i class="bi bi-sun"></i>
                         </button>
                     </li>
                     <?php if ($isLoggedIn): ?>
                         <li>
-                            <button type="button" class="btn btn-outline-secondary px-4">Dashboard</button>
+                            <button type="button" class="btn btn-outline-secondary px-4" id="dashboardBtn">Dashboard</button>
                         </li>
                         <li>
-                            <button type="button" class="btn btn-primary px-4">Logout</button>
+                            <button type="button" class="btn btn-primary px-4" id="logoutBtn">Logout</button>
                         </li>
                     <?php else: ?>
                         <li>
-                            <button type="button" class="btn btn-outline-secondary px-4">Login</button>
+                            <button type="button" class="btn btn-outline-secondary px-4" id="loginBtn">Login</button>
                         </li>
                         <li>
-                            <button type="button" class="btn btn-primary px-4">Sign Up</button>
+                            <button type="button" class="btn btn-primary px-4" id="signupBtn">Sign Up</button>
                         </li>
                     <?php endif; ?>
                 </ul>

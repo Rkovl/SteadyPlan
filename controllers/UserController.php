@@ -1,16 +1,9 @@
 <?php
-
-require_once(__DIR__ . "/../repos/userRepo.php");
-require_once(__DIR__ . '/../db/verifyUUID.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/repos/userRepo.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/db/verifyUUID.php');
 
 class UserController {
-    private $userRepo;
-
-    function __construct() {
-        $this->userRepo = new userRepo();
-    }
-
-    function register() {
+    public static function register() {
         try {
             if($_SERVER["REQUEST_METHOD"] !== "POST") {
                 http_response_code(405);
@@ -38,24 +31,24 @@ class UserController {
                 return;
             }
 
-            if(isset($data["username"]) && $this->userRepo->getUserByUsername($data["username"])) {
+            if(isset($data["username"]) && UserRepo::getUserByUsername($data["username"])) {
                 http_response_code(400);
                 echo json_encode(['error' => 'Username already taken']);
                 return;
             }
 
-            if(isset($data["email"]) && $this->userRepo->getUserByEmail($data["email"])) {
+            if(isset($data["email"]) && UserRepo::getUserByEmail($data["email"])) {
               http_response_code(400);
               echo json_encode(['error' => 'Email already taken']);
               return;
             }
 
-            $user = new User();
-            $user->username = htmlspecialchars(trim($data["username"]));
-            $user->email = isset($data["email"]) ? trim($data["email"]) : null;
-            $user->password = password_hash($data["password"], PASSWORD_DEFAULT);
+            $username = htmlspecialchars(trim($data["username"]));
+            $email = isset($data["email"]) ? trim($data["email"]) : null;
+            $password = password_hash($data["password"], PASSWORD_DEFAULT);
+            $user = new User($username, $email, $password);
 
-            $userId = $this->userRepo->register($user);
+            $userId = UserRepo::register($user);
 
             if($userId) {
                 http_response_code(201);
@@ -75,7 +68,7 @@ class UserController {
         }
     }
 
-    public function login() {
+    public static function login() {
         try {
             if($_SERVER["REQUEST_METHOD"] !== "POST") {
                 http_response_code(405);
@@ -95,9 +88,9 @@ class UserController {
 
             $user = null;
             if(filter_var($login, FILTER_VALIDATE_EMAIL)) {
-                $user = $this->userRepo->getUserByEmail($login);
+                $user = UserRepo::getUserByEmail($login);
             } else {
-                $user = $this->userRepo->getUserByUsername($login);
+                $user = UserRepo::getUserByUsername($login);
             }
 
             if(!$user || !password_verify($password, $user['password'])) {
@@ -128,7 +121,7 @@ class UserController {
         }
     }
 
-    public function logout() {
+    public static function logout() {
         try {
             if ($_SERVER["REQUEST_METHOD"] !== "POST") {
                 http_response_code(405);
@@ -152,7 +145,7 @@ class UserController {
         }
     }
 
-    public function getUserById($id) {
+    public static function getUserById($id) {
         try {
             if ($_SERVER["REQUEST_METHOD"] !== "POST") {
                 http_response_code(405);
@@ -166,7 +159,7 @@ class UserController {
                 return;
             }
 
-            $user = $this->userRepo->getUserById($id);
+            $user = UserRepo::getUserById($id);
 
             if($user) {
                 unset($user['password']);
@@ -183,7 +176,7 @@ class UserController {
         }
     }
 
-    public function updateUsername($id) {
+    public static function updateUsername($id) {
         try {
             if ($_SERVER['REQUEST_METHOD'] !== 'PUT' && $_SERVER['REQUEST_METHOD'] !== 'PATCH') {
                 http_response_code(405);
@@ -200,7 +193,7 @@ class UserController {
             }
 
             $username = htmlspecialchars(trim($data['username']));
-            $result = $this->userRepo->updateUsername($username, $id);
+            $result = UserRepo::updateUsername($username, $id);
 
             if($result) {
                 http_response_code(200);
@@ -219,7 +212,7 @@ class UserController {
         }
     }
 
-    public function updateEmail($id) {
+    public static function updateEmail($id) {
         try {
             if ($_SERVER['REQUEST_METHOD'] !== 'PUT' && $_SERVER['REQUEST_METHOD'] !== 'PATCH') {
                 http_response_code(405);
@@ -242,7 +235,7 @@ class UserController {
                 return;
             }
 
-            $result = $this->userRepo->updateEmail($email, $id);
+            $result = UserRepo::updateEmail($email, $id);
 
             if($result) {
                 http_response_code(200);
@@ -260,7 +253,7 @@ class UserController {
         }
     }
 
-    public function updatePassword($id) {
+    public static function updatePassword($id) {
         try {
             if ($_SERVER['REQUEST_METHOD'] !== 'PUT' && $_SERVER['REQUEST_METHOD'] !== 'PATCH') {
                 http_response_code(405);
@@ -282,7 +275,7 @@ class UserController {
                 return;
             }
 
-            $result = $this->userRepo->updatePassword($id, $data['password']);
+            $result = UserRepo::updatePassword($id, $data['password']);
 
             if($result) {
                 http_response_code(200);
@@ -301,7 +294,7 @@ class UserController {
         }
     }
 
-    public function deleteUser() {
+    public static function deleteUser() {
         try {
             if($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
                 http_response_code(405);
@@ -318,23 +311,23 @@ class UserController {
             }
 
             if(!empty($data['id'])) {
-                $result = $this->userRepo->deleteUser($data['id']);
+                $result = UserRepo::deleteUser($data['id']);
             } else if (!empty($data['username'])) {
-                $user = $this->userRepo->getUserByUsername($data['username']);
+                $user = UserRepo::getUserByUsername($data['username']);
                 if(!$user) {
                     http_response_code(404);
                     echo json_encode(['error' => 'User not found']);
                     return;
                 }
-                $result = $this->userRepo->deleteUser($user['id']);
+                $result = UserRepo::deleteUser($user['id']);
             } else if (!empty($data['email'])) {
-                $user = $this->userRepo->getUserByEmail($data['email']);
+                $user = UserRepo::getUserByEmail($data['email']);
                 if(!$user) {
                     http_response_code(404);
                     echo json_encode(['error' => 'User not found']);
                     return;
                 }
-                $result = $this->userRepo->deleteUser($user['id']);
+                $result = UserRepo::deleteUser($user['id']);
             }
 
             if($result) {

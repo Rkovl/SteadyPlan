@@ -56,8 +56,7 @@ class ProjectRepo extends BaseRepo {
         $query = "
         SELECT
             p.id as PROJECT_ID,
-            p.owner AS OWNER,
-            u.username AS NAME,
+            u.username AS OWNER,
             (SELECT COUNT(c.id) FROM columns c WHERE c.project_id = p.id) AS NUMCOLS,
             (SELECT COUNT(t.id) FROM tasks t WHERE t.project_id = p.id) AS NUMTASKS,
             (SELECT COUNT(pu2.user_id) FROM projects_users pu2 WHERE pu2.project_id = p.id) AS NUMUSERS

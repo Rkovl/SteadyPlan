@@ -12,31 +12,38 @@ function addColumn($id, $title) {
     echo "            </div>
             <button class='add-task-btn'><i class='bi bi-plus fs-4'></i> Add Task</button>
         </div>\n";
-    saveColumn($id, $title);
 }
 
-function initializeDefaultBoard() {
-    addColumn("todo", "To Do");
-    addColumn("inprogress", "In Progress");
-    addColumn("done", "Done");
-}
+function initializeDefaultBoard($projectID) {
+    // Create default columns in the database
+    $todoID = ColumnRepo::addColumn($projectID, "To Do", 0);
+    $inProgressID = ColumnRepo::addColumn($projectID, "In Progress", 1);
+    $doneID = ColumnRepo::addColumn($projectID, "Done", 2);
 
-function saveColumn($id, $title) {
-    // db save logic can be added here in the future
+    // Render the columns
+    if ($todoID) addColumn($todoID, "To Do");
+    if ($inProgressID) addColumn($inProgressID, "In Progress");
+    if ($doneID) addColumn($doneID, "Done");
 }
 
 function getColumns($projectID) {
     $columns = ColumnRepo::getProjectColumns($projectID);
 
-    if ($columns) {
+    if ($columns && count($columns) > 0) {
         foreach ($columns as $column) {
             addColumn($column['id'], $column['name']);
         }
     } else {
-        initializeDefaultBoard();
+        initializeDefaultBoard($projectID);
     }
 }
 
-// load columns for test project
-getColumns('f31554b1-3a6e-44ad-b3a7-db9112878b8c');
+// load columns for project from POST or GET
+$projectID = $_POST['projectID'] ?? $_GET['projectID'] ?? null;
+
+if ($projectID) {
+    getColumns($projectID);
+} else {
+    echo "<p class='text-danger'>Error: Project ID is required</p>";
+}
 

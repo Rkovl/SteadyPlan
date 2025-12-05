@@ -65,8 +65,8 @@ $(document).ready(() => {
 
 // Handle buttons
 $(document).on('click', '.openButton', event => {
-    const projectName = $(event.currentTarget).closest('tr').find('td:first').text();
-    window.location.href = `../project-board.php?project=${encodeURIComponent(projectName)}`;
+    const projectID = $(event.currentTarget).closest('tr').prop('id');
+    window.location.href = `/SteadyPlan/public/project-board.php?projectID=${encodeURIComponent(projectID)}`;
 });
 
 $(document).on('click', '.editButton', event => {

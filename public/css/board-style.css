@@ -96,3 +96,85 @@ main {
 .column.drag-over {
     background: var(--drop-over-bg); /* highlight on drag over */
 }
+
+/* Task Input Overlay */
+.task-input-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.task-input-overlay.active {
+    display: flex;
+}
+
+.task-input-modal {
+    background: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius-lg);
+    padding: 2rem;
+    min-width: 400px;
+    box-shadow: var(--bs-box-shadow-lg);
+}
+
+.task-input-modal h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: var(--bs-body-color);
+}
+
+.task-input-modal input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    background: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.task-input-modal input:focus {
+    outline: none;
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.task-input-modal .button-group {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+
+.task-input-modal button {
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: var(--bs-border-radius);
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.task-input-modal .btn-cancel {
+    background: var(--bs-secondary);
+    color: var(--bs-body-color);
+}
+
+.task-input-modal .btn-cancel:hover {
+    background: var(--bs-secondary-bg);
+}
+
+.task-input-modal .btn-create {
+    background: var(--bs-primary);
+    color: white;
+}
+
+.task-input-modal .btn-create:hover {
+    background: var(--bs-primary-border-subtle);
+}

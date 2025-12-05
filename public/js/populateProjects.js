@@ -27,10 +27,10 @@ function populateProjectsTable(projects) {
         tableRowOutline(
             project.project_id,
             project.project_name,
-            project.owner,
-            project.numusers,
-            project.numcols,
-            project.numtasks
+            project.owner_username,
+            project.num_users,
+            project.num_cols,
+            project.num_tasks
         )
     ).join('');
 }

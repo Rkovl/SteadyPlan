@@ -1,7 +1,5 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
-?>
-<?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/repos/userRepo.php';
 
 $error = "";
@@ -61,6 +59,10 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
                 <div class="invalid-feedback">
                     Please enter your password.
                 </div>
+            </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="remember_me" name="remember_me">
+                <label class="form-check-label" for="remember_me">Remember Me</label>
             </div>
             <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>

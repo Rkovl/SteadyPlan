@@ -71,7 +71,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
                 <input type="password" class="form-control" id="password" name="password"
-                       placeholder="Enter password" required minlength="6">
+                       placeholder="Enter password" required minlength="8">
                 <div class="invalid-feedback" id="passwordFeedback">
                     Please enter a password.
                 </div>
@@ -104,7 +104,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/footer.php';
                 if (passwordInput.value.length === 0) {
                     feedback.textContent = "Please enter a password."
                 } else if (passwordInput.value.length < 6) {
-                    feedback.textContent = "Password must be at least 6 characters."
+                    feedback.textContent = "Password must be at least 8 characters."
                 }
 
                 form.classList.add('was-validated')

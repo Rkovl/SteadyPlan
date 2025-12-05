@@ -20,10 +20,6 @@ function initializeDefaultBoard() {
     addColumn("done", "Done");
 }
 
-function saveColumn($id, $title) {
-    // db save logic can be added here in the future
-}
-
 function getColumns($projectID) {
     $columns = ColumnRepo::getProjectColumns($projectID);
 

@@ -9,41 +9,31 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/repos/UserRepo.php';
 try {
     $data = json_decode(file_get_contents("php://input"), true);
 
-    if(!isset($data['id']) && !isset($data['username']) && !isset($data['email'])) {
+    if(!isset($data['id']) || !isset($data['confirm_text']) || !isset($data['password'])) {
         http_response_code(400);
         echo json_encode(['error' => 'Invalid parameters']);
         return;
     }
+    $user_id = $data['id'];
+    $password = $data['password'];
 
-    if(!empty($data['id'])) {
-        $result = UserRepo::deleteUser($data['id']);
-    } else if (!empty($data['username'])) {
-        $user = UserRepo::getUserByUsername($data['username']);
-        if(!$user) {
-            http_response_code(404);
-            echo json_encode(['error' => 'User not found']);
-            return;
-        }
-        $result = UserRepo::deleteUser($user['id']);
-    } else if (!empty($data['email'])) {
-        $user = UserRepo::getUserByEmail($data['email']);
-        if(!$user) {
-            http_response_code(404);
-            echo json_encode(['error' => 'User not found']);
-            return;
-        }
-        $result = UserRepo::deleteUser($user['id']);
-    }
-
-    if($result) {
-        http_response_code(200);
-        echo json_encode([
-            'success' => true,
-            'message' => 'User deleted successfully',
-        ]);
+    $user = UserRepo::getUserById($user_id);
+    if ($data['confirm_text'] !== 'DELETE') {
+        echo json_encode(['error' => "You must type DELETE to confirm account deletion."]);
+    } elseif (!password_verify($password, $user['password'])) {
+        echo json_encode(['error' => "Password incorrect. Cannot delete account."]);
     } else {
-        http_response_code(404);
-        echo json_encode(['error' => 'User not found']);
+        $result = UserRepo::deleteUser($user_id);
+        if($result) {
+            http_response_code(200);
+            echo json_encode([
+                'success' => true,
+                'message' => 'User deleted successfully',
+            ]);
+        } else {
+            http_response_code(404);
+            echo json_encode(['error' => 'User not found']);
+        }
     }
 } catch (Exception $e) {
     http_response_code(500);

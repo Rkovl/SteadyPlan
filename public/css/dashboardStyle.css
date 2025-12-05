@@ -6,6 +6,7 @@
   display: none;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 }
 
 .overlayDisplay{
@@ -16,6 +17,7 @@
   max-height: 60vh;
   overflow-y: scroll;
   position: relative;
+  z-index: 101;
 }
 
 #closeOverlay {

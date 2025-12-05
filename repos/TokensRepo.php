@@ -8,7 +8,7 @@ class TokensRepo extends BaseRepo
     public function addToken($user_id, $token, $date) {
         $query = "INSERT INTO tokens (user_id, token, date) VALUES (:user_id, :token, :date)";
         $stmt = BaseRepo::getDB()->prepare($query);
-        $stmt->bindParam(':userID', $user_id);
+        $stmt->bindParam(':user_id', $user_id);
         $stmt->bindParam(':token', $token);
         $stmt->bindParam(':date', $date);
         $stmt->execute();
@@ -18,7 +18,7 @@ class TokensRepo extends BaseRepo
     public function isTokenValid($user_id, $token) {
         $query = "SELECT date FROM tokens WHERE user_id = :userID AND token = :token";
         $stmt = BaseRepo::getDB()->prepare($query);
-        $stmt->bindParam(':userID', $user_id);
+        $stmt->bindParam(':user_id', $user_id);
         $stmt->bindParam(':token', $token);
         $stmt->execute();
 

@@ -20,8 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($remember_me) {
                 $token = bin2hex(random_bytes(32));
 
-                // Need to store token in database. Will do after Jon makes the tables/methods
-
                 setcookie('remember_me',
                         $token,
                         [

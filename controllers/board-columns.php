@@ -15,9 +15,10 @@ function addColumn($id, $title) {
 }
 
 function initializeDefaultBoard() {
-    addColumn("todo", "To Do");
-    addColumn("inprogress", "In Progress");
-    addColumn("done", "Done");
+    global $project;
+    addColumn($project, "To Do",0);
+    addColumn($project, "In Progress",1);
+    addColumn($project, "Done",2);
 }
 
 function saveColumn($id, $title) {
@@ -32,14 +33,14 @@ function getColumns($projectID) {
             addColumn($column['id'], $column['name']);
         }
     } else {
-        initializeDefaultBoard();
+       initializeDefaultBoard();
     }
 }
 
 if (isset($_GET['project'])) {
     $project = $_GET['project'];
-    }
+}
 
 // load columns for test project
-getColumns('f31554b1-3a6e-44ad-b3a7-db9112878b8c');
+getColumns($project);
 

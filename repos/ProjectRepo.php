@@ -94,6 +94,14 @@ class ProjectRepo extends BaseRepo {
         return $stmt->execute();
     }
 
+    public static function changeProjectName($id, $name) {
+        $query = "UPDATE projects SET name = :name WHERE id = :id";
+        $stmt = BaseRepo::getDB()->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':name', $name);
+        return $stmt->execute();
+    }
+
     public static function changeName($name, $id) {
         $query = "UPDATE projects SET name = :name WHERE id = :id";
         $stmt = BaseRepo::getDB()->prepare($query);

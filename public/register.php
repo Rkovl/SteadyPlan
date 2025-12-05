@@ -1,7 +1,7 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/models/user.php';
+require_once($_SERVER['DOCUMENT_ROOT'] . '/db/auth.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/repos/userRepo.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/models/user.php');
 
 $error = "";
 

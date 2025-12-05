@@ -11,13 +11,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'] ?? null;
     $password = $_POST['password'] ?? null;
 
-    if (!$username || !$email || !$password) {
+    if (!$email || !$username || !$password) {
         $error = "All fields are required";
-    } elseif (strlen($password) < 6) {
-        $error = "Password must be at least 6 characters long";
+    } elseif (strlen($password) < 8) {
+        $error = "Password must be at least 8 characters long";
     } else {
         $userRepo = new UserRepo();
-        $userId = $userRepo->register($password, $username, $email);
+        $userId = $userRepo->register($email, $username, $password);
 
         if ($userId) {
             header("Location: login.php");

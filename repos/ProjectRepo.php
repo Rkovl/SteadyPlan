@@ -25,6 +25,34 @@ class ProjectRepo extends BaseRepo {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getAllProjects($userID) {
+        $query = "SELECT is_admin FROM users WHERE id = :userID";
+        $stmt = BaseRepo::getDB()->prepare($query);
+        $stmt->bindParam(':userID', $userID);
+        $result = $stmt->execute()['is_admin'];
+
+        if($result) {
+            $query2 = "
+            SELECT
+            p.id AS project_id,
+            p.name AS project_name,
+            u.username AS owner_username,
+        
+            (SELECT COUNT(pu.user_id) FROM projects_users pu WHERE pu.project_id = p.id) AS num_members,
+            (SELECT COUNT(c.id) FROM columns c WHERE c.project_id = p.id) AS num_columns,
+            (SELECT COUNT(t.id) FROM tasks t WHERE t.project_id = p.id) AS num_tasks
+            FROM
+                projects p
+            JOIN
+                users u ON p.owner = u.id
+            ";
+            $stmt = BaseRepo::getDB()->prepare($query2);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return null;
+    }
+
     public static function getProjectsInformationByUserId($userID) {
         $query = "
         SELECT

@@ -13,3 +13,4 @@ A web app for allowing users to create projects, manage tasks, collaborate with 
 8. Right-click on Databases -> Create -> Database
 9. Name the Database steady_plan_db and click save
 10. Right click on the new database, and press Query Tool
+11. Copy and paste everything from the schema.sql file into the Query window, and press the 'Execute Query' button (or F5)

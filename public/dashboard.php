@@ -56,7 +56,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
             </li>
             </ul>
             <div class="d-flex gap-2">
-                <input id="searchBar" type="search" class="form-control form-control-sm" placeholder="Search..." style="width: 200px;">
+                <input id="addProjectInput" type="text" class="form-control form-control-sm" placeholder="Add Project" style="width: 200px;">
                 <button id="addProject" class="btn btn-primary btn-sm">Add Project</button>
             </div>
         </div>
@@ -99,7 +99,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
     </div>
     <div class="card-footer text-body-secondary">
         <div class="text-muted small">
-                    Showing 1 to 6 of 6 entries
+                    <!-- Showing 1 to 6 of 6 entries -->
         </div>
     </div>
 </main>

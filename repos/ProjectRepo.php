@@ -55,7 +55,7 @@ class ProjectRepo extends BaseRepo {
     public static function getProjectsInformationByUserId($userID) {
         $query = "
         SELECT
-            p.id as project_id,
+            p.id as PROJECT_ID,
             p.owner AS OWNER,
             p.name AS NAME,
             (SELECT COUNT(c.id) FROM columns c WHERE c.project_id = p.id) AS NUMCOLS,

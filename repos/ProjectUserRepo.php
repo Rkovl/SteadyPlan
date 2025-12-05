@@ -11,7 +11,7 @@ class ProjectUserRepo extends BaseRepo {
         $this->projectRepo = new ProjectRepo();
     }
 
-    public function addProjectUser($projectID, $userID) {
+    public static function addProjectUser($projectID, $userID) {
         $query = "INSERT INTO projects_users (project_id, user_id) VALUES (:projectID, :userID)";
         $stmt = BaseRepo::getDB()->prepare($query);
         $stmt->bindParam(':projectID', $projectID);

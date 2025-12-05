@@ -1,24 +1,5 @@
 <?php
-require_once __DIR__ . '/../db/auth.php';
-// require_once (__DIR__ . "/../repos/columnRepo.php");
-// // if(!isLoggedIn()){
-// //     header('Location: index.php');
-// //     exit();
-// // }
-
-// function getProject($userID){
-//     $projects = ProjectUserRepo::getUserProjects($userID);
-
-//     if ($projects) {
-//         foreach ($projects as $project) {
-//             addColumn($project['id'], $project['name']);
-//         }
-//     } else {
-//         initializeDefaultBoard();
-//     }
-// }
-
-// getProject("ed11542d-d816-443e-80f9-e5cb52f21e44");
+require_once __DIR__ . '/../api/user-projects.php';
 ?>
 <!DOCTYPE html>
 <html lang="en" class="h-100">
@@ -51,8 +32,8 @@ include __DIR__ . '/../partials/header.php';
             </li>
             </ul>
             <div class="d-flex gap-2">
-                <input type="search" class="form-control form-control-sm" placeholder="Search..." style="width: 200px;">
-                <button class="btn btn-primary btn-sm">Add Project</button>
+                <input id="searchBar" type="search" class="form-control form-control-sm" placeholder="Search..." style="width: 200px;">
+                <button id="addProject" class="btn btn-primary btn-sm">Add Project</button>
             </div>
         </div>
     </div>
@@ -63,14 +44,13 @@ include __DIR__ . '/../partials/header.php';
                     <tr>
                         <th>Name</th>
                         <th>Created By</th>
-                        <th>Created Date</th>
                         <th># of Users</th>
                         <th># of Columns</th>
                         <th># of Tasks</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="projectTableBody">
                     <tr>
                         <td>Project Alpha</td>
                         <td>
@@ -79,12 +59,12 @@ include __DIR__ . '/../partials/header.php';
                                 Devon Lane
                             </div>
                         </td>
-                        <td>2024-06-01</td>
                         <td>131</td>
                         <td>12</td>
                         <td>324</td>
                         <td>
-                            <button class="btn btn-sm btn-outline-success">Edit</button>
+                            <button class="btn btn-sm btn-outline-primary">Open</button>
+                            <button class="btn btn-sm btn-outline-secondary">Edit</button>
                             <button class="btn btn-sm btn-outline-danger">Delete</button>
                         </td>
                     </tr>
@@ -105,6 +85,6 @@ include __DIR__ . '/../partials/header.php';
 <?php
 include __DIR__ . '/../partials/footer.php';
 ?>
-<script src="../js/tasks.js"></script>
+<script defer src="../js/populateProjects.js"></script>
 </body>
 </html>

@@ -25,9 +25,9 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
 
 <div class="overlay justify-content-center align-items-center">
     <div class="card overlayDisplay">
-        <button id="closeOverlay">x</button>
+        <button id="closeOverlay"><i class="bi bi-x-lg"></i></button>
         <div class="card-body">
-            <h5 class="card-title fw-bold">Update Project Data</h5>
+            <h5 class="card-title fw-bold mb-4">Update Project Data</h5>
             <div>
                 <div class="mb-3">
                     <label for="nameChange" class="form-label">Project Name</label>

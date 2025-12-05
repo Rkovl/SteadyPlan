@@ -15,7 +15,7 @@
   border-radius: 8px;
   width: 400px;
   max-height: 60vh;
-  overflow-y: scroll;
+  /*overflow-y: scroll;*/
   position: relative;
   z-index: 101;
 }

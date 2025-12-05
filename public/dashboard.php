@@ -5,7 +5,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
 <html lang="en" class="h-100">
 <head>
     <?php
-    include$_SERVER['DOCUMENT_ROOT'] . '/partials/defaultHead.php';
+    include $_SERVER['DOCUMENT_ROOT'] . '/partials/defaultHead.php';
     ?>
     <link rel="stylesheet" href="/public/css/board-style.css">
     <title>Project Board</title>

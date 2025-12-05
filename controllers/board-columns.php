@@ -16,9 +16,17 @@ function addColumn($id, $title) {
 
 function initializeDefaultBoard() {
     global $project;
-    addColumn($project, "To Do",0);
-    addColumn($project, "In Progress",1);
-    addColumn($project, "Done",2);
+//    addColumn($project, "To Do",0);
+//    addColumn($project, "In Progress",1);
+//    addColumn($project, "Done",2);
+    ColumnRepo::addColumn($project,"To Do",0);
+    ColumnRepo::addColumn($project, "In Progress",1);
+    ColumnRepo::addColumn($project, "Done",2);
+    getColumns($project);
+}
+
+function saveColumn($id, $title) {
+    // db save logic can be added here in the future
 }
 
 function getColumns($projectID) {
@@ -29,7 +37,7 @@ function getColumns($projectID) {
             addColumn($column['id'], $column['name']);
         }
     } else {
-       initializeDefaultBoard();
+        initializeDefaultBoard();
     }
 }
 

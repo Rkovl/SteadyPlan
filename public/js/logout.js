@@ -1,6 +1,6 @@
 function logOut() {
     // call logout api in backend
-    fetch('/SteadyPlan/public/logout.php', {
+    fetch('/SteadyPlan/api/logout.php', {
         method: 'POST',
         credentials: 'include'
     })

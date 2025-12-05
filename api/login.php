@@ -1,5 +1,5 @@
 <?php
-
+require_once($_SERVER['DOCUMENT_ROOT'] . '/repos/TokensRepo.php');
 if($_SERVER["REQUEST_METHOD"] !== "POST") {
     http_response_code(405);
     echo json_encode(['error' => 'Method not POST']);
@@ -32,7 +32,7 @@ try {
     $_SESSION['user_id'] = $user['id'];
     $_SESSION['username'] = $user['username'];
 
-    $remember_me = $data['remember_me'];
+    $remember_me = !empty($data['remember_me']) && ($data['remember_me'] === true);
     if($remember_me === true) {
         $token = bin2hex(random_bytes(32));
         $expiry_time = time() + (86400 * 30);

@@ -25,7 +25,7 @@ function populateProjectsTable(projects) {
     tbody.innerHTML += projects.map(project =>
         tableRowOutline(
             project.project_id,
-            project.name,
+            project.project_name,
             project.owner,
             project.numusers,
             project.numcols,
@@ -44,7 +44,7 @@ async function fetchProjects() {
         const data = await response.json();
 
         if (response.ok) {
-            console.log(data.projects);
+            //console.log(data.projects);
             populateProjectsTable(data.projects);
             console.log('Projects fetched successfully');
         } else {
@@ -61,7 +61,7 @@ $(document).ready(() => {
 
 // Handle buttons
 $(document).on('click', '.openButton', event => {
-    let projectName = $(event.currentTarget).closest('tr').find('td:first').text();
+    const projectName = $(event.currentTarget).closest('tr').find('td:first').text();
     window.location.href = `../project-board.php?project=${encodeURIComponent(projectName)}`;
 });
 
@@ -70,18 +70,19 @@ $(document).on('click', '.editButton', event => {
 });
 
 $(document).on('click', '.deleteButton', event => {
-    let projectID = $(event.currentTarget).closest('tr').prop("id");
+    const projectID = $(event.currentTarget).closest('tr').prop("id");
     const payload = {
-        project_id: userID,
-        new_name: projectID
+        project_id: projectID,
+        user_id: userID
     };
     serviceConnect(payload, "deleteProject");
 });
 
 $(document).on('click', '#addProject', event => {
-    let projectName = $('#addProjectInput').val();
+    const projectName = $('#addProjectInput').val().trim();
+    if (!projectName) return alert("Please enter a project name");
     const payload = {
-        project_id: userID,
+        project_owner: userID,
         project_name: projectName
     };
     serviceConnect(payload, "add-project");

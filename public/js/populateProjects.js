@@ -1,4 +1,5 @@
 const userID = document.body.dataset.userId;
+let currentEditProjectID = null;
 
 function tableRowOutline(project_id, project_name, owner, numCols, numTasks, numUsers) {
     return `<tr id="${project_id}">
@@ -71,15 +72,25 @@ $(document).on('click', '.openButton', event => {
 });
 
 $(document).on('click', '.editButton', event => {
+    currentEditProjectID = $(event.currentTarget).closest('tr').prop("id");
+
+    const currentName = $(event.currentTarget).closest('tr').find('td:first').text();
+    $('#nameChange').val(currentName);
+
     $('.overlay').css('display', 'flex');
 });
 
-$(document).on('click', '.deleteButton', event => {
+$(document).on('click', '.deleteButton', async event => {
     const projectID = $(event.currentTarget).closest('tr').prop("id");
     const payload = {
         project_id: projectID
     };
-    serviceConnect(payload, "deleteProject");
+    try {
+        await serviceConnect(payload, "deleteProject");
+        fetchProjects();
+    } catch (e) {
+        console.error("error deleting project")
+    }
 });
 
 $(document).on('click', '#addProject', async event => {
@@ -97,28 +108,43 @@ $(document).on('click', '#addProject', async event => {
     }
 });
 
-$('#nameChange').on('click', async event => {
-    let projectID = $(event.currentTarget).closest('tr').prop("id");
+$('#nameChangeBtn').on('click', async event => {
+    if(!currentEditProjectID) {
+        console.error("No project id found");
+        return;
+    }
+
+    const rawValue = $('#nameChange').val()
+    const safeValue = rawValue ? rawValue.trim() : ""
+    if(!safeValue) {
+        alert("fuck you")
+        return;
+    }
+
     const payload = {
-        project_id: projectID,
-        new_name: $('#projectNameInput').val().trim()
+        project_id: currentEditProjectID,
+        new_name: safeValue
     };
     try {
         await serviceConnect(payload, "changeProjectName");
+
         fetchProjects();
     } catch (e) {
         console.error("change project name failed")
     }
 });
 
-$('#addUser').on('click', async event => {
-    let projectID = $(event.currentTarget).closest('tr').prop("id");
+$('#addUserBtn').on('click', async event => {
+    if(!currentEditProjectID) return;
+
     const payload = {
-        project_id: projectID,
-        user_id: $('#userIDInput').val()
+        project_id: currentEditProjectID,
+        user_id: $('#addUser').val()
     };
+
     try {
         await serviceConnect(payload, "addProjectUser");
+
         fetchProjects();
     } catch (e) {
         console.error("failed to add project user")
@@ -147,5 +173,6 @@ async function serviceConnect(payload, endpoint) {
         })
         .catch((err) => {
             console.error("Request failed:", err.message);
+            throw err;
         });
 }

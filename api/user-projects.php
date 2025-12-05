@@ -1,6 +1,6 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/repos/projectRepo.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/repos/ProjectRepo.php';
 
 header('Content-Type: application/json');
 

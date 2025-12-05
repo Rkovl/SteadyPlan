@@ -18,7 +18,25 @@ class ProjectRepo extends BaseRepo {
     }
 
     public static function getProjectsByUserId($userID) {
-        $query = "SELECT * FROM projects WHERE owner = :userID";
+        $query = "SELECT * FROM projects_users WHERE user_id = :userID";
+        $stmt = BaseRepo::getDB()->prepare($query);
+        $stmt->bindParam(':userID', $userID);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function getProjectsInformationByUserId($userID) {
+        $query = "
+        SELECT
+            p.owner AS OWNER,
+            p.name AS NAME,
+            (SELECT COUNT(c.id) FROM columns c WHERE c.project_id = p.id) AS NUMCOLS,
+            (SELECT COUNT(t.id) FROM tasks t WHERE t.project_id = p.id) AS NUMTASKS,
+            (SELECT COUNT(pu2.user_id) FROM projects_users pu2 WHERE pu2.project_id = p.id) AS NUMUSERS
+        FROM projects_users pu
+        JOIN projects p ON p.id = pu.project_id
+        WHERE pu.user_id = :userID
+        ";
         $stmt = BaseRepo::getDB()->prepare($query);
         $stmt->bindParam(':userID', $userID);
         $stmt->execute();

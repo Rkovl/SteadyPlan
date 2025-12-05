@@ -17,6 +17,21 @@ $isLoggedIn = isLoggedIn();
                         aria-label="Toggle Theme">
                     <i class="bi bi-sun"></i>
                 </button>
+                <?php if ($isLoggedIn): ?>
+                    <button id="settingsBtnMobile"
+                            class="btn btn-light d-sm-none me-2 theme-reactive-btn"
+                            aria-label="Toggle Theme" onclick="window.location.href='account.php'">
+                        <i class="bi bi-gear"></i>
+                    </button>
+
+                    <?php if (isAdmin()): ?>
+                        <button id="adminBtnMobile"
+                                class="btn btn-light d-sm-none me-2 theme-reactive-btn"
+                                aria-label="Toggle Theme" onclick="window.location.href='admin.php'">
+                            <i class="bi bi-database-gear"></i>
+                        </button>
+                    <?php endif; ?>
+                <?php endif; ?>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
                         aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -33,14 +48,24 @@ $isLoggedIn = isLoggedIn();
                         </button>
                     </li>
                     <?php if ($isLoggedIn): ?>
-                        <li class="nav-item dropdown">
-                            <button class="btn btn-outline-secondary dropdown-toggle px-4" data-bs-toggle="dropdown">
-                                Settings
+                        <li class="d-none d-sm-inline-block">
+                            <button id="settingsBtnDesktop"
+                                    class="btn btn-light theme-reactive-btn"
+                                    aria-label="Settings" onclick="window.location.href='account.php'">
+                                <i class="bi bi-gear"></i>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="account.php">User Account</a></li>
-                            </ul>
                         </li>
+
+                        <?php if (isAdmin()): ?>
+                            <li class="d-none d-sm-inline-block">
+                                <button id="adminBtnDesktop"
+                                        class="btn btn-light theme-reactive-btn"
+                                        aria-label="Toggle Theme" onclick="window.location.href='admin.php'">
+                                    <i class="bi bi-database-gear"></i>
+                                </button>
+                            </li>
+                        <?php endif; ?>
+
                         <li>
                             <button type="button" class="btn btn-outline-secondary px-4" id="dashboardBtn">Dashboard
                             </button>

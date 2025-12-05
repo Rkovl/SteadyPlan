@@ -1,13 +1,18 @@
 const $htmlRootTag = $('html');
 const $themeButtons = $('.theme-button');
+const $themeReactiveButtons = $('.theme-reactive-btn');
 
 function updateThemeButtons(currentTheme) {
     if (currentTheme === 'dark') {
         $themeButtons.removeClass('btn-light');
+        $themeReactiveButtons.removeClass('btn-light');
         $themeButtons.addClass('btn-dark');
+        $themeReactiveButtons.addClass('btn-dark');
     } else {
         $themeButtons.removeClass('btn-dark');
+        $themeReactiveButtons.removeClass('btn-dark');
         $themeButtons.addClass('btn-light');
+        $themeReactiveButtons.addClass('btn-light');
     }
 }
 

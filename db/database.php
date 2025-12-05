@@ -17,7 +17,7 @@ class Database {
     }
 
     // Get the singleton instance
-    public static function getInstance(string $conn_string = self::DEFAULT_CONN_STRING) {
+    public static function getInstance($conn_string = self::DEFAULT_CONN_STRING) {
         if (self::$instance === null) {
             self::$instance = new self();
         }

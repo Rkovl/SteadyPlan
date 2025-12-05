@@ -1,18 +1,18 @@
 <?php
-require_once __DIR__ . '/../api/user-projects.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/api/user-projects.php';
 ?>
 <!DOCTYPE html>
 <html lang="en" class="h-100">
 <head>
     <?php
-    include __DIR__ . '/../partials/defaultHead.php';
+    include $_SERVER['DOCUMENT_ROOT'] . '/partials/defaultHead.php';
     ?>
     <link rel="stylesheet" href="/public/css/board-style.css">
     <title>Project Board</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <?php
-include __DIR__ . '/../partials/header.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
 ?>
 
 
@@ -83,7 +83,7 @@ include __DIR__ . '/../partials/header.php';
 
 
 <?php
-include __DIR__ . '/../partials/footer.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/partials/footer.php';
 ?>
 <script defer src="../js/populateProjects.js"></script>
 </body>

@@ -49,7 +49,7 @@ try {
     }
 
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
-    $user = new User($username, $email, $password_hash);
+    $user = new User($username, $email, $password_hash, false);
     $userId = UserRepo::register($user);
 
     if ($userId) {

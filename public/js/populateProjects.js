@@ -66,7 +66,32 @@ $(document).on('click', '.editButton', event => {
 });
 
 $(document).on('click', '.deleteButton', event => {
-    
+    let projectID = $(event.currentTarget).closest('tr').prop("id")
+    const payload = {
+        project_id: $_SESSION["user_id"],
+        new_name: projectID
+    };
+
+    fetch("/api/deleteProject.php", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+    })
+    .then(async (res) => {
+        if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `HTTP ${res.status}`);
+        }
+        return res.json().catch(() => ({})); // if endpoint returns JSON
+    })
+    .then((data) => {
+        console.log("Success:", data);
+    })
+    .catch((err) => {
+        console.error("Request failed:", err.message);
+    });
 });
 
 $(document).on('click', '#addProject', event => {

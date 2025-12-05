@@ -6,6 +6,8 @@ if (!isLoggedIn()) {
     exit();
 }
 
+//echo json_encode(['user' => $_SESSION['user_id'] ?? null]);
+
 ?>
 <!DOCTYPE html>
 <html lang="en" class="h-100">
@@ -16,7 +18,7 @@ if (!isLoggedIn()) {
     <link rel="stylesheet" href="/public/css/dashboardStyle.css">
     <title>Project Board</title>
 </head>
-<body class="d-flex flex-column min-vh-100" data-user-id="<?php echo htmlspecialchars($_SESSION["user_id"]); ?>">
+<body class="d-flex flex-column min-vh-100" data-user-id="<?= $_SESSION['user_id'] ?? '' ?>">
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
 ?>

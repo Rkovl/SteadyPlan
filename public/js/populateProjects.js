@@ -73,14 +73,13 @@ $(document).on('click', '.editButton', event => {
 $(document).on('click', '.deleteButton', event => {
     const projectID = $(event.currentTarget).closest('tr').prop("id");
     const payload = {
-        project_id: projectID,
-        user_id: userID
+        project_id: projectID
     };
     serviceConnect(payload, "deleteProject");
 });
 
 $(document).on('click', '#addProject', event => {
-    const projectName = $('#addProjectInput').val().trim();
+    const projectName = $('#addProjectInput').text().trim();
     if (!projectName) return alert("Please enter a project name");
     const payload = {
         project_owner: userID,
@@ -94,7 +93,7 @@ $('#nameChange').on('click', event => {
     let projectID = $(event.currentTarget).closest('tr').prop("id");
     const payload = {
         project_id: projectID,
-        new_name: $('#projectNameInput').val()
+        new_name: $('#projectNameInput').text().trim()
     };
     serviceConnect(payload, "changeProjectName");
     fetchProjects();
@@ -104,7 +103,7 @@ $('#addUser').on('click', event => {
     let projectID = $(event.currentTarget).closest('tr').prop("id");
     const payload = {
         project_id: projectID,
-        user_id: $('#userIDInput').val()
+        user_id: $('#userIDInput').text()
     };
     serviceConnect(payload, "addProjectUser");
     fetchProjects();

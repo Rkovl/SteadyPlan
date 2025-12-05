@@ -1,7 +1,7 @@
 $(document).ready(function() {
     // Handle login button click
     $('#loginBtn').on('click', () => {
-        window.location.href = "/SteadyPlan/db/login.php";
+        window.location.href = "/SteadyPlan/public/login.php";
     });
 
     // Handle logout button click
@@ -11,7 +11,7 @@ $(document).ready(function() {
 
     // Handle signup button click
     $('#signupBtn').on('click', () => {
-        window.location.href = "/SteadyPlan/db/register.php";
+        window.location.href = "/SteadyPlan/public/register.php";
     });
 });
 

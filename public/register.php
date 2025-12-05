@@ -10,14 +10,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'] ?? null;
     $username = $_POST['username'] ?? null;
     $password = $_POST['password'] ?? null;
+    $user = new User($username, $email, $password);
 
     if (!$email || !$username || !$password) {
         $error = "All fields are required";
     } elseif (strlen($password) < 8) {
         $error = "Password must be at least 8 characters long";
     } else {
-        $userRepo = new UserRepo();
-        $userId = $userRepo->register($email, $username, $password);
+        $userId = UserRepo::register($user);
 
         if ($userId) {
             header("Location: login.php");

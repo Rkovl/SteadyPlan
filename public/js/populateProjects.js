@@ -1,12 +1,4 @@
-let $_SESSION = {};
-
-fetch('/dashboard.php', { credentials: 'same-origin' })
-  .then(r => r.json())
-  .then(data => {
-    console.log(data.user);
-    $_SESSION = data.user || {};
-  });
-
+const $_SESSION = document.body.dataset.userId;;
 
 function tableRowOutline(project_id, projectName, ownerName, numUsers, numCols, numTasks) {
     return`<tr id="${project_id}">

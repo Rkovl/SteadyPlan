@@ -1,13 +1,54 @@
+<?php
+    $isLoggedIn = isLoggedIn();
+    //$isLoggedIn = true; //for testing purposes
+?>
+<header class="bg-body-secondary border-bottom shadow-sm">
+    <nav class="navbar navbar-expand-sm">
+        <div class="container-fluid">
 
-        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom container"> 
-            <div class="col-md-3 mb-2 mb-md-0"> 
-                <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none align-items-center fw-bold"> 
-                    <img src="./images/SteadyPlan_Logo.png" alt="Logo" class="bi me-2" width="40" height="40">
-                    Steady Plan
-                </a> 
-            </div> 
-            <div class="col-md-3 text-end"> 
-                <button type="button" class="btn btn-outline-primary me-2">Login</button> 
-                <button type="button" class="btn btn-primary">Sign-up</button> 
-            </div> 
-        </header>
+            <div class="d-flex align-items-center w-100">
+                <a href="/" class="navbar-brand d-flex align-items-center gap-2 fw-bold me-auto">
+                    <img src="/public/images/logo.svg" alt="Logo" width="48" height="48" class="logo-svg">
+                    <span class="fs-3">Steady Plan</span>
+                </a>
+
+                <button id="themeToggleBtnMobile"
+                        class="btn btn-light d-sm-none me-2 theme-button"
+                        aria-label="Toggle Theme">
+                    <i class="bi bi-sun"></i>
+                </button>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                        aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+
+            <div class="collapse navbar-collapse w-100 mt-2 mt-sm-0" id="mainNav">
+                <ul class="navbar-nav ms-auto flex-column flex-sm-row align-items-end gap-2">
+                    <li class="d-none d-sm-inline-block">
+                        <button id="themeToggleBtnDesktop"
+                                class="btn btn-light theme-button"
+                                aria-label="Toggle Theme">
+                            <i class="bi bi-sun"></i>
+                        </button>
+                    </li>
+                    <?php if ($isLoggedIn): ?>
+                        <li>
+                            <button type="button" class="btn btn-outline-secondary px-4" id="dashboardBtn">Dashboard</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-primary px-4" id="logoutBtn">Logout</button>
+                        </li>
+                    <?php else: ?>
+                        <li>
+                            <button type="button" class="btn btn-outline-secondary px-4" id="loginBtn">Login</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-primary px-4" id="signupBtn">Sign Up</button>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

@@ -55,16 +55,17 @@ class ProjectRepo extends BaseRepo {
     public static function getProjectsInformationByUserId($userID) {
         $query = "
         SELECT
-            p.id as PROJECT_ID,
-            p.name as PROJECT_NAME,
-            u.username AS OWNER,
-            (SELECT COUNT(c.id) FROM columns c WHERE c.project_id = p.id) AS NUMCOLS,
-            (SELECT COUNT(t.id) FROM tasks t WHERE t.project_id = p.id) AS NUMTASKS,
-            (SELECT COUNT(pu2.user_id) FROM projects_users pu2 WHERE pu2.project_id = p.id) AS NUMUSERS
-        FROM projects_users pu
-        JOIN projects p ON p.id = pu.project_id
+            p.id as project_id,
+            p.name as project_name,
+            u.username AS owner,
+            (SELECT COUNT(c.id) FROM columns c WHERE c.project_id = p.id) AS numcols,
+            (SELECT COUNT(t.id) FROM tasks t WHERE t.project_id = p.id) AS numtasks,
+            (SELECT COUNT(pu2.user_id) FROM projects_users pu2 WHERE pu2.project_id = p.id) AS numusers
+        FROM projects p
         JOIN users u on u.id = p.owner
-        WHERE pu.user_id = :userID
+        LEFT JOIN projects_users pu on p.id = pu.project_id and pu.user_id = :userID
+        WHERE pu.user_id IS NOT NULL OR 
+              p.owner = :userID
         ";
         $stmt = BaseRepo::getDB()->prepare($query);
         $stmt->bindParam(':userID', $userID);

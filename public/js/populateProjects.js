@@ -25,12 +25,12 @@ function populateProjectsTable(projects) {
     tbody.innerHTML = ''; // Clear existing rows
     tbody.innerHTML += projects.map(project =>
         tableRowOutline(
-            project.PROJECT_ID,
-            project.PROJECT_NAME,
-            project.OWNER,
-            project.NUMCOLS,
-            project.NUMTASKS,
-            project.NUMUSERS
+            project.project_id,
+            project.project_name,
+            project.owner,
+            project.numcols,
+            project.numtasks,
+            project.numusers
         )
     ).join('');
 }
@@ -50,7 +50,6 @@ async function fetchProjects() {
         const data = await response.json();
 
         if (response.ok) {
-            // testProjects(data)
             populateProjectsTable(data.projects);
             console.log('Projects fetched successfully');
         } else {

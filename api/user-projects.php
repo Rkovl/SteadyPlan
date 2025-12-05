@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "GET") {
 }
 
 try {
-    $projects = ProjectRepo::getProjectsByUserId($_SESSION['user_id']);
+    $projects = ProjectRepo::getProjectsInformationByUserId($_SESSION['user_id']);
     http_response_code(200);
     echo json_encode(['projects' => $projects]);
 } catch (Exception $e) {

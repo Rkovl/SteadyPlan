@@ -57,7 +57,7 @@ $(document).ready(() => {
 
 $(document).on('click', '.openButton', event => {
     let projectName = $(event.currentTarget).closest('tr').find('td:first').text();
-    window.location.href = `/php/project-board.php?project=${projectName}`;
+    window.location.href = `../project-board.php`;
 });
 
 $(document).on('click', '.editButton', event => {

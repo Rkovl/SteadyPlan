@@ -11,7 +11,7 @@ try {
 
     if (!isset($data["project_id"]) && !isset($data["new_name"])) {
         http_response_code(400);
-        echo json_encode(['error' => 'Project owner and name are required']);
+        echo json_encode(['error' => 'Project id and name are required']);
     }
 
     $id = $data["project_id"];

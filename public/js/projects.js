@@ -4,6 +4,39 @@ const projectsPerPage = 10;
 let currentPage = 1;
 let allProjects = [];
 
+// Helper functions for error handling
+function showError(inputId, errorId, message) {
+    const inputElement = $(`#${inputId}`);
+    const errorElement = $(`#${errorId}`);
+
+    inputElement.removeClass('is-valid').addClass('is-invalid');
+    errorElement.removeClass('valid-feedback').addClass('invalid-feedback');
+    errorElement.text(message).show();
+}
+
+function showSuccess(inputId, errorId, message) {
+    const inputElement = $(`#${inputId}`);
+    const errorElement = $(`#${errorId}`);
+
+    inputElement.removeClass('is-invalid').addClass('is-valid');
+    errorElement.removeClass('invalid-feedback').addClass('valid-feedback');
+    errorElement.text(message).show();
+}
+
+function clearError(inputId, errorId) {
+    const inputElement = $(`#${inputId}`);
+    const errorElement = $(`#${errorId}`);
+
+    inputElement.removeClass('is-invalid is-valid');
+    errorElement.removeClass('invalid-feedback valid-feedback');
+    errorElement.text('').hide();
+}
+
+function clearAllErrors() {
+    clearError('nameChange', 'nameChangeError');
+    clearError('addUser', 'addUserError');
+}
+
 function tableRowOutline(project_id, project_name, owner, numCols, numTasks, numUsers) {
     return `<tr id="${project_id}">
         <td>${project_name}</td>
@@ -17,8 +50,8 @@ function tableRowOutline(project_id, project_name, owner, numCols, numTasks, num
         <td>${numCols}</td>
         <td>${numTasks}</td>
         <td>
-            <button class="btn btn-sm btn-outline-primary openButton">Open</button>
-            <button class="btn btn-sm btn-outline-success editButton">Edit</button>
+            <button class="btn btn-sm btn-outline-success openButton">Open</button>
+            <button class="btn btn-sm btn-outline-primary editButton">Edit</button>
             <button class="btn btn-sm btn-outline-danger deleteButton">Delete</button>
         </td>
     </tr>`;
@@ -95,7 +128,7 @@ async function fetchProjects() {
     try {
         const response = await fetch('/SteadyPlan/api/user-projects.php', {
             method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
+            headers: {'Content-Type': 'application/json'}
         });
 
         const data = await response.json();
@@ -137,6 +170,9 @@ $(document).on('click', '.editButton', event => {
     const currentName = $(event.currentTarget).closest('tr').find('td:first').text();
     $('#nameChange').val(currentName);
 
+    // Clear any previous errors
+    clearAllErrors();
+
     $('.overlay').css('display', 'flex');
 });
 
@@ -146,7 +182,11 @@ $(document).on('click', '.deleteButton', async event => {
         project_id: projectID
     };
     try {
-        await serviceConnect(payload, "deleteProject");
+        let res = await serviceConnect(payload, "deleteProject");
+        if (res.status !== 200) {
+            alert("Failed to delete project: " + (res.error || 'Unknown error'));
+            return;
+        }
         fetchProjects();
     } catch (e) {
         console.error("error deleting project")
@@ -163,7 +203,7 @@ $(document).on('click', '#addProject', async event => {
     try {
         const response = await fetch(`/SteadyPlan/api/add-project.php`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {"Content-Type": "application/json"},
             body: JSON.stringify(payload)
         });
 
@@ -194,15 +234,25 @@ $(document).on('click', '#addProject', async event => {
 });
 
 $('#nameChangeBtn').on('click', async event => {
-    if(!currentEditProjectID) {
+    // Clear previous errors
+    clearError('nameChange', 'nameChangeError');
+
+    if (!currentEditProjectID) {
         console.error("No project id found");
         return;
     }
 
     const rawValue = $('#nameChange').val()
+    // validate the input to check if it's not the same as before
+    let currentProject = allProjects.find(p => p.project_id === currentEditProjectID);
+    if (currentProject && currentProject.project_name === rawValue.trim()) {
+        showError('nameChange', 'nameChangeError', 'The new project name must be different from the current name');
+        return;
+    }
+
     const safeValue = rawValue ? rawValue.trim() : ""
-    if(!safeValue) {
-        alert("Please enter a valid project name")
+    if (!safeValue) {
+        showError('nameChange', 'nameChangeError', 'Please enter a valid project name');
         return;
     }
 
@@ -211,7 +261,12 @@ $('#nameChangeBtn').on('click', async event => {
         new_name: safeValue
     };
     try {
-        await serviceConnect(payload, "changeProjectName");
+        const response = await serviceConnect(payload, "changeProjectName");
+
+        if (response.status !== 200) {
+            showError('nameChange', 'nameChangeError', response.error || 'Failed to update project name');
+            return;
+        }
 
         // Update the project in the array
         const project = allProjects.find(p => p.project_id === currentEditProjectID);
@@ -219,32 +274,57 @@ $('#nameChangeBtn').on('click', async event => {
             project.project_name = safeValue;
         }
 
+        setTimeout(() => {
+            clearError('nameChange', 'nameChangeError');
+        }, 1500);
+
         // Refresh display
         displayCurrentPage();
 
-        // Close the overlay
-        $('.overlay').css('display', 'none');
-        currentEditProjectID = null;
+        // Show success feedback
+        showSuccess('nameChange', 'nameChangeError', 'Project name updated successfully!');
     } catch (e) {
         console.error("change project name failed");
-        alert("Failed to update project name. Please try again.");
+        showError('nameChange', 'nameChangeError', 'Failed to update project name. Please try again.');
     }
 });
 
 $('#addUserBtn').on('click', async event => {
-    if(!currentEditProjectID) return;
+    // Clear previous errors
+    clearError('addUser', 'addUserError');
+
+    if (!currentEditProjectID) return;
+
+    const username = $('#addUser').val().trim();
+    if (!username) {
+        showError('addUser', 'addUserError', 'Please enter a username');
+        return;
+    }
 
     const payload = {
         project_id: currentEditProjectID,
-        user_id: $('#addUser').val()
+        username: username
     };
 
     try {
-        await serviceConnect(payload, "addProjectUser");
+        let res = await serviceConnect(payload, "addProjectUser");
+        if (res.status === 200) {
+            // Show success feedback
+            showSuccess('addUser', 'addUserError', 'User added successfully!');
 
-        fetchProjects();
+            // Clear the input and success message after a short delay
+            setTimeout(() => {
+                $('#addUser').val('');
+                clearError('addUser', 'addUserError');
+            }, 1500);
+
+            fetchProjects();
+        } else {
+            showError('addUser', 'addUserError', res.error || 'Failed to add user');
+        }
     } catch (e) {
-        console.error("failed to add project user")
+        console.error("Failed to add project user. " + e.message);
+        showError('addUser', 'addUserError', 'An error occurred. Please try again.');
     }
 });
 
@@ -256,21 +336,12 @@ $('#closeOverlay').on('click', event => {
 async function serviceConnect(payload, endpoint) {
     return fetch(`/SteadyPlan/api/${endpoint}.php`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(payload)
-    })
-        .then(async (res) => {
-            if (!res.ok) {
-                const err = await res.json().catch(() => ({}));
-                throw new Error(err.error || `HTTP ${res.status}`);
-            }
-            return res.json().catch(() => ({}));
-        })
-        .then((data) => {
-            console.log("Success:", data);
-        })
-        .catch((err) => {
-            console.error("Request failed:", err.message);
-            throw err;
-        });
+    }).then(async response => {
+        const err = await response.json().catch(() => ({}));
+        // return the returned json with the status code from the response
+        err.status = response.status;
+        return err;
+    });
 }

@@ -32,11 +32,13 @@ include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php';
                 <div class="mb-3">
                     <label for="nameChange" class="form-label">Project Name</label>
                     <input type="text" class="form-control" id="nameChange">
+                    <div id="nameChangeError" style="display: none;"></div>
                 </div>
                 <button id="nameChangeBtn" type="button" class="btn btn-primary mb-5">Change Name</button>
                 <div class="mb-3">
                     <label for="addUser" class="form-label">Add User</label>
                     <input type="text" class="form-control" id="addUser">
+                    <div id="addUserError" style="display: none;"></div>
                 </div>
                 <button id="addUserBtn" type="button" class="btn btn-primary">Invite</button>
             </div>

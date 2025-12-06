@@ -29,27 +29,30 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
             width: 100%;
             z-index: 3;
         }
+        h3{
+            text-align: start;
+        }
     </style>
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100 ">
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/partials/header.php'; ?>
 <main class="d-flex flex-grow-1 flex-column">
     <div class="container">
         <div class="col">
             <div class="row">
                 <div class="col-12 col-lg d-flex flex-column justify-content-center align-items-start">
-                    <h1 class="fw-bold">Steady Plan — Where tasks stay clear and progress stays steady.</h1>
+                    <h1 class="fw-bold text-start">Steady Plan — Where tasks stay clear and progress stays steady.</h1>
                     <p class="pt-3 pb-3 pe-5 me-5">Steady Plan is a collaborative project management platform designed
                         to
                         keep teams organized and aligned. Create projects, track tasks, assign responsibilities, and
                         visualize progress through an intuitive Kanban workflow. Built to support clear communication,
                         structured teamwork, and consistent project delivery.</p>
-                    <button class="btn btn-primary d-inline-flex align-items-center" type="button" onclick="window.location.href='register.php'">Sign-up Today →
+                    <button class="btn btn-primary d-inline-flex align-items-center justify-content-center" type="button" onclick="window.location.href='register.php'">Sign-up Today →
                     </button>
                 </div>
                 <div class="col-12 col-lg-1 p-5"></div>
                 <div class="col-12 col-lg">
-                    <img src="./images/tempShowcaseImage.png" alt="Showcase Image" class="img-fluid shadow">
+                    <img src="./images/landingPageImage2.png" alt="Showcase Image" class="img-fluid shadow">
                 </div>
             </div>
             <div class="pt-5 pb-5 mt-5 mb-5">

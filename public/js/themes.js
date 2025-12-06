@@ -1,3 +1,6 @@
+/*
+ * Theme toggle JS.
+ */
 const $htmlRootTag = $('html');
 const $themeButtons = $('.theme-button');
 const $themeReactiveButtons = $('.theme-reactive-btn');

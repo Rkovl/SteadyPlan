@@ -1,4 +1,7 @@
 <?php
+/*
+ * Repo for column-related DB operations.
+ */
 require_once($_SERVER['DOCUMENT_ROOT'] . '/db/database.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/repos/BaseRepo.php');
 

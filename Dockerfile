@@ -1,3 +1,6 @@
+#
+# Dockerfile for for hosting on Render
+#
 FROM php:8.2-apache
 
 # Install PostgreSQL extension for PHP

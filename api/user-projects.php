@@ -1,4 +1,7 @@
 <?php
+/*
+ * API endpoint to retrieve projects that a user is apart of.
+ */
 require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/repos/ProjectRepo.php';
 

@@ -1,3 +1,6 @@
+/*
+ * Frontend logic for task creation, deletion, movement, and UI updates.
+ */
 const tasks = document.getElementsByClassName('task');
 const columns = document.getElementsByClassName('column');
 let draggedTask = null;

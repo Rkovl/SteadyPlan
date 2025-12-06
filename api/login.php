@@ -1,4 +1,5 @@
 <?php
+/* API endpoint to authenticate and login a user. */
 require_once($_SERVER['DOCUMENT_ROOT'] . '/repos/TokensRepo.php');
 if($_SERVER["REQUEST_METHOD"] !== "POST") {
     http_response_code(405);

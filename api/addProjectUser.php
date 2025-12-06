@@ -1,4 +1,5 @@
 <?php
+/* API endpoint to add a user to a project. */
 header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {

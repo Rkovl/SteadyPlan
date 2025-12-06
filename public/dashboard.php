@@ -1,4 +1,7 @@
 <?php
+/*
+ *  Dashboard page for showing and editing projects a user is apart of.
+ */
 require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
 
 if (!isLoggedIn()) {

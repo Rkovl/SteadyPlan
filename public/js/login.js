@@ -1,3 +1,6 @@
+/*
+ * Frontend login form handling.
+ */
 $('#loginForm').on('submit', async (e) => {
     e.preventDefault();
 

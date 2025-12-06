@@ -1,4 +1,7 @@
 <?php
+/*
+ * Class getting DB connection.
+ */
 
 class BaseRepo {
     static private $db = null;

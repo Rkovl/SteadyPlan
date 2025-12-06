@@ -1,4 +1,7 @@
 <?php
+/*
+ *Database connection functions.
+ */
 class Database {
     private static $instance = null;
     private $connection;

@@ -1,3 +1,6 @@
+/*
+ * General JS for navbar navigation 
+*/
 $(document).ready(function() {
     // Handle login button click
     $('#loginBtn').on('click', () => {

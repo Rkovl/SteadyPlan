@@ -1,3 +1,6 @@
+<!--
+    Footer partial with jquery and other scripts.
+-->
 <footer class="bg-body-secondary mt-auto">
     <div class="container-fluid d-flex flex-wrap justify-content-between align-items-center py-3 px-4 px-lg-5 border-top">
         <div class="d-flex align-items-center">

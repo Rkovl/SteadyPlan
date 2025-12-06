@@ -1,4 +1,7 @@
 <?php
+/*
+ * Database authentication checker.
+ */
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }

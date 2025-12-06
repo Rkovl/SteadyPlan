@@ -1,4 +1,7 @@
 <?php
+/*
+ * Used to retrieving and dynamically generate column tasks.
+ */
 require_once ($_SERVER['DOCUMENT_ROOT'] . "/db/database.php");
 require_once ($_SERVER['DOCUMENT_ROOT'] . "/repos/taskRepo.php");
 

@@ -1,4 +1,7 @@
 <?php
+/*
+ * Helps to verify UUID strings for security.
+ */
 class verifyUUID {
     public function __construct(){}
     public function verifyUUID($uuid) {

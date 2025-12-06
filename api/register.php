@@ -1,4 +1,7 @@
 <?php
+/*
+ * API endpoint to register a new user.
+ */
 require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/models/user.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/repos/userRepo.php';

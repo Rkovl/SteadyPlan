@@ -1,4 +1,5 @@
 <?php
+/* API endpoint to log out the current user. */
 session_start();
 try {
     if ($_SERVER["REQUEST_METHOD"] !== "POST") {

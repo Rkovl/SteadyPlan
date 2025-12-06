@@ -1,4 +1,7 @@
 <?php
+/*
+ * Repo for activity logs and related queries. (unsued bonus functionality)
+ */
 require_once($_SERVER['DOCUMENT_ROOT'] . '/db/database.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/repos/BaseRepo.php');
 

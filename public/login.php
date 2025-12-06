@@ -1,4 +1,7 @@
 <?php
+/*
+ * User login page.
+ */
 require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
 
 if (isLoggedIn()) {

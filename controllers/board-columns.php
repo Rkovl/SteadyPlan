@@ -1,4 +1,7 @@
 <?php
+/*
+ * Used to retrieving and dynamically generate board columns.
+ */
 require_once ($_SERVER['DOCUMENT_ROOT'] . "/db/database.php");
 require_once ("column-task.php");
 require_once ($_SERVER['DOCUMENT_ROOT'] . "/repos/columnRepo.php");

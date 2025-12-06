@@ -1,3 +1,7 @@
+--
+-- Database schema for Postgres (users, tokens, projects, tasks, etc.)
+--
+
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 -- USERS Table

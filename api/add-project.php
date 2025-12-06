@@ -1,4 +1,5 @@
 <?php
+/* API endpoint to add a new project for a user. */
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     http_response_code(405);
     echo json_encode(['error' => 'Method not POST']);

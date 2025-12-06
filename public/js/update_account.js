@@ -1,3 +1,6 @@
+/*
+ * JS to handle updating user account and deleting account actions.
+ */
 function resetAlert($element) {
     $element.addClass('d-none');
     $element.removeClass('alert-danger');

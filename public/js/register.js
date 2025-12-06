@@ -1,3 +1,6 @@
+/*
+ * Frontend registration form handling.
+ */
 $('#registerForm').on('submit', async e => {
     e.preventDefault();
 

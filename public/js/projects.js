@@ -1,3 +1,6 @@
+/*
+ * Frontend logic for creation and managing projects.
+ */
 const userID = document.body.dataset.userId;
 let currentEditProjectID = null;
 const projectsPerPage = 10;

@@ -1,4 +1,7 @@
 <?php
+/*
+ *  Home/Landing page.
+ */
 require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
 ?>
 <!DOCTYPE html>

@@ -1,4 +1,7 @@
 <?php
+/*
+ * Site partial for navbar.
+ */
 $isLoggedIn = isLoggedIn();
 //$isLoggedIn = true; //for testing purposes
 ?>

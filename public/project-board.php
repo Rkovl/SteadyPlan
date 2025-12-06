@@ -1,4 +1,7 @@
 <?php
+/*
+ * Displays a specific projects Kanban Board.
+ */
 require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
 
 // Get project ID from URL parameter

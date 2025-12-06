@@ -1,4 +1,7 @@
 <?php
+/*
+ * Account settings page for logged-in users.
+ */
 require_once $_SERVER['DOCUMENT_ROOT'] . '/db/auth.php';
 
 if (!isLoggedIn()) {

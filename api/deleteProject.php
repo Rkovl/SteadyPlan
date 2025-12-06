@@ -1,4 +1,5 @@
 <?php
+/* API endpoint to delete a project. */
 header('Content-Type: application/json');
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     http_response_code(405);

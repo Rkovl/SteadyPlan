@@ -1,3 +1,6 @@
+/*
+ * Handles user logout requests.
+ */
 function logOut() {
     // call logout api in backend
     fetch('/SteadyPlan/api/logout.php', {

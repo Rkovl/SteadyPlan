@@ -1,4 +1,7 @@
 <?php
+/*
+ * Helps with user-related DB operations.
+ */
 class User {
     public $username;
     public $email;

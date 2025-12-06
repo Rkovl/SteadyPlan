@@ -1,4 +1,7 @@
 <?php
+/*
+ * Repository for token handling.
+ */
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/db/database.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/repos/BaseRepo.php');

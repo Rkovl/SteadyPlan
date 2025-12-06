@@ -20,6 +20,7 @@ A web app for allowing users to create projects, manage tasks, collaborate with 
 12. Copy and paste everything from the schema.sql file into the Query window, and press the 'Execute Query' button (or F5)
 13. Next, take the following connection string, with your password added, and paste it into the DEFAULT_CONN_STRING
     variable stored in /db/database.php
+```postgresql://postgres:password@localhost:5432/steady_plan_db```
 ## Credentials for a Pre‑Made Admin/Demo User Account
 
 ### Test User
@@ -30,6 +31,6 @@ A web app for allowing users to create projects, manage tasks, collaborate with 
 - **Login:** admin  
 - **Password:** password
     
-```postgresql://postgres:password@localhost:5432/steady_plan_db```
+
 
 

@@ -22,5 +22,3 @@ A web app for allowing users to create projects, manage tasks, collaborate with 
     variable stored in /db/database.php
     
 ```postgresql://postgres:password@localhost:5432/steady_plan_db```
-
-## Accessing the test user
